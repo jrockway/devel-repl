@@ -32,7 +32,7 @@ sub run_once {
   my ($self) = @_;
   my $line = $self->read;
   return unless defined($line); # undefined value == EOF
-  my @ret = $self->execute($line);
+  my @ret = $self->eval($line);
   $self->print(@ret);
   return 1;
 }
@@ -42,11 +42,41 @@ sub read {
   return $self->term->readline($self->prompt);
 }
 
-sub execute {
-  my ($self, $to_exec) = @_;
-  my @ret = eval $to_exec;
-  @ret = ("ERROR: $@") if $@;
+sub eval {
+  my ($self, $line) = @_;
+  my ($to_exec, @rest) = $self->compile($line);
+  return @rest unless defined($to_exec);
+  my @ret = $self->execute($to_exec);
   return @ret;
+}
+
+sub compile {
+  my ($self, $line) = @_;
+  my $compiled = eval $self->wrap_as_sub($line);
+  return (undef, $self->error_return("Compile error", $@)) if $@;
+  return $compiled;
+}
+
+sub wrap_as_sub {
+  my ($self, $line) = @_;
+  return qq!sub {\n!.$self->mangle_line($line).qq!\n}\n!;
+}
+
+sub mangle_line {
+  my ($self, $line) = @_;
+  return $line;
+}
+
+sub execute {
+  my ($self, $to_exec, @args) = @_;
+  my @ret = eval { $to_exec->(@args) };
+  return $self->error_return("Runtime error", $@) if $@;
+  return @ret;
+}
+
+sub error_return {
+  my ($self, $type, $error) = @_;
+  return "${type}: ${error}";
 }
 
 sub print {
