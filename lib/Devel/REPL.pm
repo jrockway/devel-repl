@@ -68,9 +68,9 @@ sub mangle_line {
 }
 
 sub execute {
-  my ($self, $to_exec, @args) = @_;
-  my @ret = eval { $to_exec->(@args) };
-  return $self->error_return("Runtime error", $@) if $@;
+  my $REPL = shift;
+  my @ret = eval { shift->(@_) };
+  return $REPL->error_return("Runtime error", $@) if $@;
   return @ret;
 }
 
