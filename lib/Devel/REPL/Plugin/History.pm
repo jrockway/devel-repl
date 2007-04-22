@@ -1,6 +1,7 @@
 package Devel::REPL::Plugin::History;
 
 use Moose::Role;
+use namespace::clean -except => [ 'meta' ];
 
 has 'history' => (
   isa => 'ArrayRef', is => 'rw', required => 1, lazy => 1,

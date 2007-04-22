@@ -5,8 +5,7 @@
 package Devel::REPL::Plugin::NewlineHack;
 
 use Moose::Role;
-
-use Data::Dumper;
+use namespace::clean -except => [ 'meta' ];
 
 after 'print' => sub {
   # not fussed about args
