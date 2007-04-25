@@ -6,7 +6,7 @@ around 'eval' => sub {
     my $next = shift;
     my ($self, $line) = @_;
     if ($line =~ /^#(.*)/) {
-        return $next->($self, ('$REPL->' . $1 . '; return();'));
+        return $next->($self, ('$_REPL->' . $1 . '; return();'));
     }
     else {
         return $next->($self, $line);

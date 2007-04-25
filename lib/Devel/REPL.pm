@@ -51,9 +51,9 @@ sub eval {
 }
 
 sub compile {
-  my $REPL = shift;
-  my $compiled = eval $REPL->wrap_as_sub($_[0]);
-  return (undef, $REPL->error_return("Compile error", $@)) if $@;
+  my $_REPL = shift;
+  my $compiled = eval $_REPL->wrap_as_sub($_[0]);
+  return (undef, $_REPL->error_return("Compile error", $@)) if $@;
   return $compiled;
 }
 
