@@ -3,6 +3,9 @@ package Devel::REPL;
 use Term::ReadLine;
 use Moose;
 use namespace::clean -except => [ 'meta' ];
+use 5.8.1; # might work with earlier perls but probably not
+
+our $VERSION = '1.000000';
 
 with 'MooseX::Object::Pluggable';
 
@@ -82,7 +85,30 @@ sub error_return {
 sub print {
   my ($self, @ret) = @_;
   my $fh = $self->out_fh;
+  no warnings 'uninitialized';
   print $fh "@ret";
 }
+
+=head1 NAME
+
+Devel::REPL - a modern perl interactive shell
+
+=head1 SYNOPSIS
+
+  my $repl = Devel::REPL->new;
+  $repl->load_plugin($_) for qw(History LexEnv);
+  $repl->run
+
+Alternatively, use the 're.pl' script installed with the distribution
+
+=head1 AUTHOR
+
+Matt S Trout - mst (at) shadowcatsystems.co.uk (L<http://www.shadowcatsystems.co.uk/>)
+
+=head1 LICENSE
+
+This library is free software under the same terms as perl itself
+
+=cut
 
 1;
