@@ -1,48 +1,49 @@
-# First cut at handling packages.
-#
-# doesn't work very well, and totally doesn't work with the wrap_as_sub
-# stuff ;) For comments only really
-
 package Devel::REPL::Plugin::Packages;
 
 use Moose::Role;
+use vars qw($PKG_SAVE);
 
 has 'current_package' => (
   isa      => 'Str',
   is       => 'rw',
-  default  => 'main',
+  default  => 'Devel::REPL::Plugin::Packages::DefaultScratchpad',
   lazy     => 1
 );
 
-around 'eval' => sub {
-# we don't call forward to $orig here, since the new sub-wrapped system
-# doesn't work. We spot package declarations and retain the name so
-# that we can reenter the package for each statement. Not sure the
-# regex is bob on, but then it doesn't work anyway...
-  my $orig=shift;
-  my ($self, $line)=@_;
-
-  my @ret=("OOPS: ".__PACKAGE__.'$ret unset!');
-
-#  $self->print("Line is: $line");
-  if($line=~/\s*package\s([\w:]*)/) {
-#    $self->print("Recognised as a package switch");
-#    $ret=$self->$orig($line);
-    @ret=eval $line;
-#    $self->print("ret: @ret");
-    # should check for good return here
-    $self->current_package($1);
-#    $self->print('curr pkg: '.$self->current_package);
-  } else {
-#    $self->print("Not a package switch");
-    my $packaged_line='package ' . $self->current_package . '; '.$line;
-#    $self->print("packaged line: $packaged_line");
-#    @ret=$self->$orig($packaged_line);
-    @ret=eval $packaged_line;
-#    $self->print("ret: @ret");
-  }
-  return @ret;
+around 'wrap_as_sub' => sub {
+  my $orig = shift;
+  my ($self, @args) = @_;
+  my $line = $self->$orig(@args);
+  # prepend package def before sub { ... }
+  return q!package !.$self->current_package.qq!;\n${line}!;
 };
 
-1;
+around 'mangle_line' => sub {
+  my $orig = shift;
+  my ($self, @args) = @_;
+  my $line = $self->$orig(@args);
+  # add a BEGIN block to set the package around at the end of the sub
+  # without mangling the return value (we save it off into a global)
+  $line .= '; BEGIN { $Devel::REPL::Plugin::Packages::PKG_SAVE = __PACKAGE__; }';
+  return $line;
+};
 
+after 'execute' => sub {
+  my ($self) = @_;
+  # if we survived execution successfully, save the new package out the global
+  $self->current_package($PKG_SAVE);
+};
+
+around 'eval' => sub {
+  my $orig = shift;
+  my ($self, @args) = @_;
+  # localise the $PKG_SAVE global in case of nested evals
+  local $PKG_SAVE;
+  return $self->$orig(@args);
+};
+
+package Devel::REPL::Plugin::Packages::DefaultScratchpad;
+
+# declare empty scratchpad package for cleanliness
+
+1;
