@@ -5,7 +5,7 @@ use Moose;
 use namespace::clean -except => [ 'meta' ];
 use 5.8.1; # might work with earlier perls but probably not
 
-our $VERSION = '1.000000';
+our $VERSION = '1.001000'; # 1.1.0
 
 with 'MooseX::Object::Pluggable';
 
@@ -100,6 +100,8 @@ Devel::REPL - a modern perl interactive shell
   $repl->run
 
 Alternatively, use the 're.pl' script installed with the distribution
+
+  system$ re.pl
 
 =head1 AUTHOR
 
