@@ -17,7 +17,11 @@ around 'mangle_line' => sub {
   my ($self, @rest) = @_;
   my $line = $self->$orig(@rest);
   my $lp = $self->lexical_environment;
-  return join('', map { "my $_;\n" } keys %{$lp->get_context('_')}).$line;
+  # Collate my declarations for all LP context vars then add '';
+  # so an empty statement doesn't return anything (with a no warnings
+  # to prevent "Useless use ..." warning)
+  return join('', map { "my $_;\n" } keys %{$lp->get_context('_')})
+           .qq{{ no warnings 'void'; ''; }\n}.$line;
 };
 
 around 'execute' => sub {
