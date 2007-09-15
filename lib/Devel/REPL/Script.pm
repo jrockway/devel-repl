@@ -32,6 +32,8 @@ sub load_profile {
   my ($self, $profile) = @_;
   $profile = "Devel::REPL::Profile::${profile}" unless $profile =~ /::/;
   Class::MOP::load_class($profile);
+  confess "Profile class ${profile} doesn't do 'Devel::REPL::Profile'"
+    unless $profile->does('Devel::REPL::Profile');
   $profile->new->apply_profile($self->_repl);
 }
 
