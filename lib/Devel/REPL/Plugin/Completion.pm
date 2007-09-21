@@ -67,7 +67,7 @@ around 'eval' => sub {
     foreach my $var (keys %{$lex->get_context('_')}) {
         $var = substr($var, 1); # we drop the variable idiom as it confuses the completion
         $self->push_completion($var) unless 
-            grep /^${var}$/, @{$self->term->Attribs->{completion_word}};
+            grep $_ eq $var, @{$self->term->Attribs->{completion_word}};
     }
 
     return @ret;
