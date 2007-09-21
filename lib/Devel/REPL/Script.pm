@@ -17,6 +17,10 @@ has 'profile' => (
   is => 'ro', isa => 'Str', required => 1, default => sub { 'Default' },
 );
 
+has 'e' => (
+  is => 'ro', isa => 'ArrayRef', default => sub { [] },
+);
+
 has '_repl' => (
   is => 'ro', isa => 'Devel::REPL', required => 1,
   default => sub { Devel::REPL->new() }
@@ -26,6 +30,7 @@ sub BUILD {
   my ($self) = @_;
   $self->load_profile($self->profile);
   $self->load_rcfile($self->rcfile);
+  $self->load_scripts($self->e);
 }
 
 sub load_profile {
@@ -52,6 +57,14 @@ sub load_rcfile {
     close RCFILE; # Don't care if this fails
     $self->eval_rcdata($rc_data);
     warn "Error executing rc file ${rc_file}: $@\n" if $@;
+  }
+}
+
+sub load_scripts {
+  my ($self, $scripts) = @_;
+
+  for (@$scripts) {
+    do $_;
   }
 }
 
