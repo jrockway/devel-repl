@@ -18,6 +18,7 @@ requires 'Term::ReadLine';
 requires 'Lexical::Persistence';
 requires 'Data::Dump::Streamer';
 requires 'PPI';
+requires 'Term::ANSIColor';
 
 auto_install;
 WriteAll;
