@@ -9,6 +9,11 @@ has 'continuation_prompt' => (
   default => sub { '> ' }
 );
 
+has 'line_depth' => (
+  is => 'rw', required => 1, lazy => 1,
+  default => sub { 0 }
+);
+
 around 'read' => sub {
   my $orig = shift;
   my ($self, @args) = @_;
@@ -19,7 +24,10 @@ around 'read' => sub {
       my $orig_prompt = $self->prompt;
       $self->prompt($self->continuation_prompt);
 
+      $self->line_depth($self->line_depth + 1);
       my $append = $self->read(@args);
+      $self->line_depth($self->line_depth - 1);
+
       $line .= $append if defined($append);
 
       $self->prompt($orig_prompt);
