@@ -35,7 +35,7 @@ around print => sub {
 # get $self, so we localize $SIG{__WARN__} during eval so it can get
 # error_color
 
-around execute => sub {
+sub _wrap_warn {
   my $orig = shift;
   my $self = shift;
 
@@ -50,6 +50,9 @@ around execute => sub {
 
   $orig->($self, @_);
 };
+
+around compile => \&_wrap_warn;
+around execute => \&_wrap_warn;
 
 1;
 
