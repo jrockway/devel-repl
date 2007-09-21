@@ -107,6 +107,22 @@ Alternatively, use the 're.pl' script installed with the distribution
 
 Matt S Trout - mst (at) shadowcatsystems.co.uk (L<http://www.shadowcatsystems.co.uk/>)
 
+=head1 CONTRIBUTORS
+
+=over 4
+
+=item Stevan Little - stevan (at) iinteractive.com
+
+=item Alexis Sukrieh - sukria+perl (at) sukria.net
+
+=item epitaph
+
+=item mgrimes - mgrimes (at) cpan dot org
+
+=item Shawn M Moore - sartak (at) gmail.com
+
+=back
+
 =head1 LICENSE
 
 This library is free software under the same terms as perl itself
