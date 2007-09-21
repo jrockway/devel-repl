@@ -50,3 +50,69 @@ sub needs_continuation
 }
 
 1;
+
+__END__
+
+=head1 NAME
+
+Devel::REPL::Plugin::MultiLine::PPI - read lines until all blocks are closed
+
+=head1 SYNOPSIS
+
+    #!/usr/bin/perl 
+
+    use lib './lib';
+    use Devel::REPL;
+
+    my $repl = Devel::REPL->new;
+    $repl->load_plugin('LexEnv');
+    $repl->load_plugin('History');
+    $repl->load_plugin('MultiLine::PPI');
+    $repl->run;
+
+=head1 DESCRIPTION
+
+Plugin that will collect lines until you have no unfinished structures. This
+lets you write subroutines, C<if> statements, loops, etc. more naturally.
+
+For example, without a MultiLine plugin,
+
+    $ my $x = 3;
+    3
+    $ if ($x == 3) {
+
+will throw a compile error, because that C<if> statement is incomplete. With a
+MultiLine plugin,
+
+    $ my $x = 3;
+    3
+    $ if ($x == 3) {
+
+    > print "OH NOES!"
+
+    > }
+    OH NOES
+    1
+
+you may write the code across multiple lines, such as in C<irb> and C<python>.
+
+This module uses L<PPI>. This plugin is named C<MultiLine::PPI> because someone
+else may conceivably implement similar behavior some other less
+dependency-heavy way.
+
+=head1 SEE ALSO
+
+C<Devel::REPL>
+
+=head1 AUTHOR
+
+Shawn M Moore, C<< <sartak at gmail dot com> >>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2007 by Shawn M Moore
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=cut
