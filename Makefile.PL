@@ -17,6 +17,7 @@ requires 'File::Spec';
 requires 'Term::ReadLine';
 requires 'Lexical::Persistence';
 requires 'Data::Dump::Streamer';
+requires 'PPI';
 
 auto_install;
 WriteAll;
