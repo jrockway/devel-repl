@@ -54,9 +54,9 @@ around 'eval' => sub {
     my @ret = $self->$orig($line);
     
     # the namespace of the loaded module
-    if ($line =~ /use\s+(\S+)/) {
+    if ($line =~ /\buse\s+(\S+)/) {
         my $module = $1;
-        foreach my $keyword (keys %{$self->get_namespace($module)}) {
+        foreach my $keyword (keys %{$self->get_namespace($module) || {}}) {
             $self->push_completion($keyword);
         }
     }
