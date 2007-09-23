@@ -19,6 +19,8 @@ requires 'Lexical::Persistence';
 requires 'Data::Dump::Streamer';
 requires 'PPI';
 requires 'Term::ANSIColor';
+requires 'B::Keywords';
+requires 'Task::Weaken';
 
 auto_install;
 WriteAll;
