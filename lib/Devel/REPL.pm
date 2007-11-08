@@ -36,7 +36,13 @@ sub run_once {
   my $line = $self->read;
   return unless defined($line); # undefined value == EOF
   my @ret = $self->eval($line);
-  $self->print(@ret);
+  eval {
+    $self->print(@ret);
+  };
+  if ($@) {
+    my $error = $@;
+    eval { $self->print("Error printing! - $error\n"); };
+  }
   return 1;
 }
 
@@ -87,6 +93,7 @@ sub print {
   my $fh = $self->out_fh;
   no warnings 'uninitialized';
   print $fh "@ret";
+  print $fh "\n" if $self->term->ReadLine =~ /Gnu/;
 }
 
 =head1 NAME
