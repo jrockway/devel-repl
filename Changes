@@ -1,3 +1,4 @@
+1.2.0
   - deprecate NewlineHack plugin, cause fixed in REPL.pm
   - OutputCache plugin
   - MultiLine::PPI plugin
