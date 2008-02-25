@@ -8,7 +8,7 @@ all_from 'lib/Devel/REPL.pm';
 install_script 'script/re.pl';
 
 build_requires 'Test::More';
-requires 'Moose';
+requires 'Moose' => '0.38';
 requires 'MooseX::Object::Pluggable' => '0.0007';
 requires 'MooseX::Getopt';
 requires 'namespace::clean';

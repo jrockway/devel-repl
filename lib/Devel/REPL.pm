@@ -5,7 +5,7 @@ use Moose;
 use namespace::clean -except => [ 'meta' ];
 use 5.8.1; # might work with earlier perls but probably not
 
-our $VERSION = '1.002000'; # 1.2.0
+our $VERSION = '1.002001'; # 1.2.1
 
 with 'MooseX::Object::Pluggable';
 

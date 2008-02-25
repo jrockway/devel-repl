@@ -26,18 +26,24 @@ sub AFTER_PLUGIN {
 after 'setup_commands' => sub {
   my ($self) = @_;
   weaken($self);
-  $self->command_set->{load_plugin} = sub { $self->load_plugin(@_); };
+  $self->command_set->{load_plugin} = sub {
+    my $self = shift;
+    sub { $self->load_plugin(@_); };
+  };
 };
 
 sub command_installer {
   my ($self) = @_;
-  my %command_set = %{$self->command_set};
+  my $command_set = $self->command_set;
+  my %command_subs = map {
+    ($_ => $command_set->{$_}->($self));
+  } keys %$command_set;
   return sub {
     my $package = shift;
-    foreach my $command (keys %command_set) {
+    foreach my $command (keys %command_subs) {
       no strict 'refs';
       no warnings 'redefine';
-      *{"${package}::${command}"} = $command_set{$command};
+      *{"${package}::${command}"} = $command_subs{$command};
     }
   };
 }
