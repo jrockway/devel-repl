@@ -10,11 +10,29 @@ has output_cache => (
     lazy    => 1,
 );
 
+has warned_about_underscore => (
+    is      => 'rw',
+    isa     => 'Bool',
+    default => 0,
+    lazy    => 1,
+);
+
 around 'eval' => sub {
     my $orig = shift;
     my ($self, $line) = @_;
 
-    local *_ = sub () { $self->output_cache->[-1] };
+    my $has_underscore = *_{CODE};
+    if ($has_underscore && !$self->warned_about_underscore) {
+        warn "OutputCache: Sub _ already defined.";
+        $self->warned_about_underscore(1);
+    }
+    else {
+        # if _ is removed, then we should warn about it again if it comes back
+        $self->warned_about_underscore(0);
+    }
+
+    # this needs to be a postfix conditional for 'local' to work
+    local *_ = sub () { $self->output_cache->[-1] } unless $has_underscore;
 
     my @ret;
     if (wantarray) {
