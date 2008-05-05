@@ -1,6 +1,8 @@
 package Devel::REPL::Plugin::Packages;
+use Devel::REPL::Plugin;
 
-use Moose::Role;
+use namespace::clean -except => [ "meta" ];
+
 use vars qw($PKG_SAVE);
 
 has 'current_package' => (
