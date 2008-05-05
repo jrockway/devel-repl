@@ -20,7 +20,7 @@ around 'read' => sub {
   my $line = $self->$orig(@args);
 
   if (defined $line) {
-    while (needs_continuation($line)) {
+    while ($self->line_needs_continuation($line)) {
       my $orig_prompt = $self->prompt;
       $self->prompt($self->continuation_prompt);
 
@@ -39,8 +39,9 @@ around 'read' => sub {
   return $line;
 };
 
-sub needs_continuation
+sub line_needs_continuation
 {
+  my $repl = shift;
   my $line = shift;
   my $document = PPI::Document->new(\$line);
   return 0 if !defined($document);
