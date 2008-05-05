@@ -12,11 +12,16 @@ with qw(Devel::REPL::Plugin::Turtles);
 sub expr_command_peek {
   my ( $self, $eval, $code ) = @_;
 
-  # can't override output properly
-  # FIXME do some dup wizardry
-  Dump( $self->eval($code) );
+  my @res = $self->eval($code);
 
-  return ""; # this is a hack to print nothing after Dump has already printed. PLZ TO FIX KTHX!
+  if ( $self->is_error(@res) ) {
+    return $self->format(@res);
+  } else {
+    # can't override output properly
+    # FIXME do some dup wizardry
+    Dump(@res);
+    return ""; # this is a hack to print nothing after Dump has already printed. PLZ TO FIX KTHX!
+  }
 }
 
 __PACKAGE__
