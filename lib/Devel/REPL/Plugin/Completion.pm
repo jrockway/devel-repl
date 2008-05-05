@@ -18,6 +18,12 @@ has match_index => (
   default => sub { 0 },
 );
 
+has no_term_class_warning => (
+  isa => "Bool",
+  is  => "rw",
+  default => 0,
+);
+
 sub BEFORE_PLUGIN {
   my ($self) = @_;
 
@@ -27,6 +33,13 @@ sub BEFORE_PLUGIN {
   $self->term->Attribs->{attempted_completion_function} = sub {
     $weakself->_completion(@_);
   };
+}
+
+sub AFTER_PLUGIN {
+  my ($self) = @_;
+
+  warn "Term::ReadLine::Gnu is required for the Completion plugin to work"
+    unless $self->term->isa("Term::ReadLine::Gnu") and !$self->no_term_class_warning;
 }
 
 sub _completion {
