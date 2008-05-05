@@ -9,6 +9,8 @@ our $VERSION = '1.002001'; # 1.2.1
 
 with 'MooseX::Object::Pluggable';
 
+use Devel::REPL::Error;
+
 has 'term' => (
   is => 'rw', required => 1,
   default => sub { Term::ReadLine->new('Perl REPL') }
@@ -26,24 +28,65 @@ has 'out_fh' => (
 
 sub run {
   my ($self) = @_;
-  while ($self->run_once) {
+  while ($self->run_once_safely) {
     # keep looping
+  }
+}
+
+sub run_once_safely {
+  my ($self, @args) = @_;
+
+  my $ret = eval { $self->run_once(@args) };
+
+  if ($@) {
+    my $error = $@;
+    eval { $self->print("Error! - $error\n"); };
+    return 1;
+  } else {
+    return $ret;
   }
 }
 
 sub run_once {
   my ($self) = @_;
+
   my $line = $self->read;
   return unless defined($line); # undefined value == EOF
-  my @ret = $self->eval($line);
-  eval {
-    $self->print(@ret);
-  };
-  if ($@) {
-    my $error = $@;
-    eval { $self->print("Error printing! - $error\n"); };
-  }
+
+  my @ret = $self->formatted_eval($line);
+
+  $self->print(@ret);
+
   return 1;
+}
+
+sub formatted_eval {
+  my ( $self, @args ) = @_;
+
+  my @ret = $self->eval(@args);
+
+  return $self->format(@ret);
+}
+
+sub format {
+  my ( $self, @stuff ) = @_;
+
+  if ( blessed($stuff[0]) and $stuff[0]->isa("Devel::REPL::Error") ) {
+    return $self->format_error(@stuff);
+  } else {
+    return $self->format_result(@stuff);
+  }
+}
+
+sub format_result {
+  my ( $self, @stuff ) = @_;
+
+  return @stuff;
+}
+
+sub format_error {
+  my ( $self, $error ) = @_;
+  return $error->stringify;
 }
 
 sub read {
@@ -60,15 +103,15 @@ sub eval {
 }
 
 sub compile {
-  my $_REPL = shift;
-  my $compiled = eval $_REPL->wrap_as_sub($_[0]);
+  my ( $_REPL, @args ) = @_;
+  my $compiled = eval $_REPL->wrap_as_sub(@args);
   return (undef, $_REPL->error_return("Compile error", $@)) if $@;
   return $compiled;
 }
 
 sub wrap_as_sub {
-  my ($self, $line) = @_;
-  return qq!sub {\n!.$self->mangle_line($line).qq!\n}\n!;
+  my ($self, $line, %args) = @_;
+  return qq!sub {\n!. ( $args{no_mangling} ? $line : $self->mangle_line($line) ).qq!\n}\n!;
 }
 
 sub mangle_line {
@@ -85,7 +128,7 @@ sub execute {
 
 sub error_return {
   my ($self, $type, $error) = @_;
-  return "${type}: ${error}";
+  return Devel::REPL::Error->new( type => $type, message => $error );
 }
 
 sub print {

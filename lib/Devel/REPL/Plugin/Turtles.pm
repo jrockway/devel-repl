@@ -1,26 +1,69 @@
 package Devel::REPL::Plugin::Turtles;
-use Moose::Role;
+use Devel::REPL::Plugin;
+
+use Scalar::Util qw(reftype);
+
+use MooseX::AttributeHelpers;
+
 use namespace::clean -except => [ 'meta' ];
 
-around 'eval' => sub {
+has default_command_prefix => (
+  isa => "RegexpRef",
+  is  => "rw",
+  default => sub { qr/\#/ },
+);
+
+has turtles_matchers => (
+  metaclass => "Collection::Array",
+  isa => "ArrayRef[RegexpRef|CodeRef]",
+  is  => "rw",
+  default => sub { my $prefix = shift->default_command_prefix; [qr/^ $prefix (\w+) \s* (.*) /x] },
+  provides => {
+    unshift => "add_turtles_matcher",
+  },
+);
+
+around 'formatted_eval' => sub {
   my $next = shift;
-  my ($self, $line) = @_;
-  if ( my ( $command, $rest ) = ( $line =~ /^#(\w+)\s*(.*)/ ) ) {
-    if ( my $cont = $self->can("continue_reading_if_necessary") ) {
-      $rest = $self->$cont($rest);
-    }
+  my ($self, $line, @args) = @_;
 
+  if ( my ( $command, @rest ) = $self->match_turtles($line) ) {
     my $method = "command_$command";
+    my $expr_method = "expr_$method";
 
-    if ( $self->can($method) ) {
-      return $self->$method($rest);
+    if ( my $expr_code = $self->can($expr_method) ) {
+      if ( my $read_more = $self->can("continue_reading_if_necessary") ) {
+        push @rest, $self->$read_more(pop @rest);
+      }
+      $self->$expr_code($next, @rest);
+    } elsif ( my $cmd_code = $self->can($method) ) {
+      return $self->$cmd_code($next, @rest);
     } else {
-      return $self->error_return("REPL error", "Command '$command' does not exist");
+      unless ( $line =~ /^\s*#/ ) { # special case for comments
+        return $self->format($self->error_return("REPL Error", "Command '$command' does not exist"));
+      }
     }
-  }
-  else {
-    return $next->($self, $line);
+  } else {
+    return $self->$next($line, @args);
   }
 };
+
+sub match_turtles {
+  my ( $self, $line ) = @_;
+
+  foreach my $thingy ( @{ $self->turtles_matchers } ) {
+    if ( reftype $thingy eq 'CODE' ) {
+      if ( my @res = $self->$thingy($line) ) {
+        return @res;
+      }
+    } else {
+      if ( my @res = ( $line =~ $thingy ) ) {
+        return @res;
+      }
+    }
+  }
+
+  return;
+}
 
 1;

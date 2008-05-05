@@ -3,7 +3,7 @@ package Devel::REPL::Plugin::DDS;
 use Moose::Role;
 use Data::Dump::Streamer ();
 
-around 'print' => sub {
+around 'format_result' => sub {
   my $orig = shift;
   my $self = shift;
   my $to_dump = (@_ > 1) ? [@_] : $_[0];
