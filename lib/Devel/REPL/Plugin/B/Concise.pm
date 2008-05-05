@@ -30,13 +30,17 @@ sub expr_command_concise {
 
   my $sub = $self->compile($code, no_mangling => 1);
 
-  open my $fh, ">", \my $out;
-  {
-    local *STDOUT = $fh;
-    B::Concise::compile((split /\s+/, $opts), $sub)->();
-  }
+  if ( $self->is_error($sub) ) {
+    return $self->format($sub);
+  } else {
+    open my $fh, ">", \my $out;
+    {
+      local *STDOUT = $fh;
+      B::Concise::compile((split /\s+/, $opts), $sub)->();
+    }
 
-  return $out;
+    return $out;
+  }
 }
 
 __PACKAGE__

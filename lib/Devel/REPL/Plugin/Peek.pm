@@ -12,10 +12,6 @@ with qw(Devel::REPL::Plugin::Turtles);
 sub expr_command_peek {
   my ( $self, $eval, $code ) = @_;
 
-  if ( my $cont = $self->can("continue_reading_if_necessary") ) {
-    $code = $self->$cont($code);
-  }
-
   # can't override output properly
   # FIXME do some dup wizardry
   Dump( $self->eval($code) );
