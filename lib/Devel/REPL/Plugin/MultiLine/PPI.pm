@@ -20,24 +20,33 @@ around 'read' => sub {
   my $line = $self->$orig(@args);
 
   if (defined $line) {
-    while ($self->line_needs_continuation($line)) {
-      my $orig_prompt = $self->prompt;
-      $self->prompt($self->continuation_prompt);
-
-      $self->line_depth($self->line_depth + 1);
-      my $append = $self->read(@args);
-      $self->line_depth($self->line_depth - 1);
-
-      $line .= $append if defined($append);
-
-      $self->prompt($orig_prompt);
-
-      # ^D means "shut up and eval already"
-      return $line if !defined($append);
-    }
+    return $self->continue_reading_if_necessary($line, @args);
+  } else {
+    return $line;
   }
-  return $line;
 };
+
+sub continue_reading_if_necessary {
+  my ( $self, $line, @args ) = @_;
+
+  while ($self->line_needs_continuation($line)) {
+    my $orig_prompt = $self->prompt;
+    $self->prompt($self->continuation_prompt);
+
+    $self->line_depth($self->line_depth + 1);
+    my $append = $self->read(@args);
+    $self->line_depth($self->line_depth - 1);
+
+    $line .= $append if defined($append);
+
+    $self->prompt($orig_prompt);
+
+    # ^D means "shut up and eval already"
+    return $line if !defined($append);
+  }
+
+  return $line;
+}
 
 sub line_needs_continuation
 {
