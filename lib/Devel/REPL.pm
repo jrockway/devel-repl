@@ -71,7 +71,7 @@ sub formatted_eval {
 sub format {
   my ( $self, @stuff ) = @_;
 
-  if ( blessed($stuff[0]) and $stuff[0]->isa("Devel::REPL::Error") ) {
+  if ( $self->is_error($stuff[0]) ) {
     return $self->format_error(@stuff);
   } else {
     return $self->format_result(@stuff);
@@ -89,6 +89,11 @@ sub format_error {
   return $error->stringify;
 }
 
+sub is_error {
+  my ( $self, $thingy ) = @_;
+  blessed($thingy) and $thingy->isa("Devel::REPL::Error");
+}
+
 sub read {
   my ($self) = @_;
   return $self->term->readline($self->prompt);
@@ -96,16 +101,15 @@ sub read {
 
 sub eval {
   my ($self, $line) = @_;
-  my ($to_exec, @rest) = $self->compile($line);
-  return @rest unless defined($to_exec);
-  my @ret = $self->execute($to_exec);
-  return @ret;
+  my $compiled = $self->compile($line);
+  return $compiled unless defined($compiled) and not $self->is_error($compiled);
+  return $self->execute($compiled);
 }
 
 sub compile {
   my ( $_REPL, @args ) = @_;
   my $compiled = eval $_REPL->wrap_as_sub(@args);
-  return (undef, $_REPL->error_return("Compile error", $@)) if $@;
+  return $_REPL->error_return("Compile error", $@) if $@;
   return $compiled;
 }
 
