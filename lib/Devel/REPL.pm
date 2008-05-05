@@ -3,7 +3,7 @@ package Devel::REPL;
 use Term::ReadLine;
 use Moose;
 use namespace::clean -except => [ 'meta' ];
-use 5.8.1; # might work with earlier perls but probably not
+use 5.008001; # backwards compat, doesn't warn like 5.8.1
 
 our $VERSION = '1.002001'; # 1.2.1
 
