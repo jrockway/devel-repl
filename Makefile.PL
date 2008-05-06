@@ -21,6 +21,7 @@ requires 'PPI';
 requires 'Term::ANSIColor';
 requires 'B::Keywords';
 requires 'Task::Weaken';
+requires 'App::Nopaste';
 
 auto_install;
 WriteAll;
