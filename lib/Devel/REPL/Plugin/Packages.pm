@@ -33,7 +33,7 @@ around 'mangle_line' => sub {
 after 'execute' => sub {
   my ($self) = @_;
   # if we survived execution successfully, save the new package out the global
-  $self->current_package($PKG_SAVE);
+  $self->current_package($PKG_SAVE) if defined $PKG_SAVE;
 };
 
 around 'eval' => sub {
