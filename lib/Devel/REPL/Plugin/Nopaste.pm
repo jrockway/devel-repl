@@ -16,6 +16,16 @@ has complete_session => (
     },
 );
 
+before eval => sub {
+    my $self = shift;
+    my $line = shift;
+
+    # prepend each line with #
+    $line =~ s/^/# /mg;
+
+    $self->add_to_session($line . "\n");
+};
+
 around eval => sub {
     my $orig = shift;
     my $self = shift;
@@ -23,14 +33,7 @@ around eval => sub {
 
     my @ret = $orig->($self, $line, @_);
 
-    # prepend each line with #
-    $line =~ s/^/# /mg;
-
-    my $step = $line . "\n"
-             . join("\n", @ret)
-             . "\n\n";
-
-    $self->add_to_session($step);
+    $self->add_to_session(join("\n", @ret) . "\n\n");
 
     return @ret;
 };
