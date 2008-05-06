@@ -37,7 +37,7 @@ sub continue_reading_if_necessary {
     my $append = $self->read(@args);
     $self->line_depth($self->line_depth - 1);
 
-    $line .= $append if defined($append);
+    $line .= "\n$append" if defined($append);
 
     $self->prompt($orig_prompt);
 
