@@ -28,7 +28,9 @@ sub expr_command_concise {
 
   die unless $code;
 
-  my $sub = $self->compile($code, no_mangling => 1);
+  my %opts = map { $_ => 1 } (split /\s+/, $opts);
+
+  my $sub = $self->compile($code, no_mangling => !delete($opts{"-mangle"}) );
 
   if ( $self->is_error($sub) ) {
     return $self->format($sub);
@@ -36,7 +38,7 @@ sub expr_command_concise {
     open my $fh, ">", \my $out;
     {
       local *STDOUT = $fh;
-      B::Concise::compile((split /\s+/, $opts), $sub)->();
+      B::Concise::compile(keys %opts, $sub)->();
     }
 
     return $out;
