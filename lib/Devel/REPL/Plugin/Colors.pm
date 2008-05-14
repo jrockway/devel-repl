@@ -26,6 +26,7 @@ around format_error => sub {
 around format_result => sub {
   my $orig = shift;
   my $self = shift;
+  no warnings 'uninitialized';
   return join "", (
     color($self->normal_color),
     $orig->($self, @_),
