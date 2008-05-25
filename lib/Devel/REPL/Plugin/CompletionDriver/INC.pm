@@ -49,6 +49,29 @@ around complete => sub {
 
   my @found;
 
+  my $add_recursively;
+  $add_recursively = sub {
+    my ($path, $iteration, @more) = @_;
+    opendir((my $dirhandle), $path);
+    for (readdir $dirhandle)
+    {
+      next if /^\.+$/; # skip . and ..
+      next if $iteration == 0 && $_ !~ $final_re;
+
+      my $match = $_;
+      my $fullmatch = File::Spec->rel2abs($match, $path);
+      if (-d $fullmatch)
+      {
+        $add_recursively->($fullmatch, $iteration + 1, @more, $match);
+      }
+      else
+      {
+        $match =~ s/\..*// unless $keep_extension;
+        push @found, join $outsep, @directories, @more, $match;
+      }
+    }
+  };
+
   INC: for (@INC)
   {
     my $path = $_;
@@ -58,18 +81,7 @@ around complete => sub {
       -d $path or next INC;
     }
 
-    opendir((my $dirhandle), $path);
-    for my $match (grep { $_ =~ $final_re } readdir $dirhandle)
-    {
-      if ($match =~ /\./) {
-        $match =~ s/\..*// unless $keep_extension;
-      }
-      # this is another subdirectory, so we're not done completing
-      else {
-        $match .= $outsep;
-      }
-      push @found, join $outsep, @directories, $match;
-    }
+    $add_recursively->($path, 0);
   }
 
   return $orig->(@_), @found;
