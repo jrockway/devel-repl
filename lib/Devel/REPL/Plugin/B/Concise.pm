@@ -75,7 +75,7 @@ This plugin provides a C<concise> command that uses L<B::Concise> to dump
 optrees of expressions.
 
 The code is not actually executed, which means that when used with
-L<Deve::REPL::Plugin::OutputCache> there is .
+L<Deve::REPL::Plugin::OutputCache> there is no new value in C<_>.
 
 The command takes the same options as L<B::Concise/compile>, e.g. C<-basic> or
 C<-exec> to determine the dump order, C<-debug>, C<-concise> and C<-terse> to
