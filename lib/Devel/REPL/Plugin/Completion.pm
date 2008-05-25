@@ -77,5 +77,16 @@ sub complete {
   return ();
 }
 
+# recursively find the last element
+sub last_ppi_element {
+  my ($self, $document, $type) = @_;
+  my $last = $document;
+  while ($last->can('last_element') && defined($last->last_element)) {
+    $last = $last->last_element;
+    return $last if $type && $last->isa($type);
+  }
+  return $last;
+}
+
 1;
 

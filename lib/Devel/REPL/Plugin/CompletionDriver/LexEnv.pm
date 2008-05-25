@@ -14,11 +14,7 @@ around complete => sub {
   my $orig = shift;
   my ($self, $text, $document) = @_;
 
-  # recursively find the last element
-  my $last = $document;
-  while ($last->can('last_element') && defined($last->last_element)) {
-      $last = $last->last_element;
-  }
+  my $last = $self->last_ppi_element($document);
 
   return $orig->(@_)
     unless $last->isa('PPI::Token::Symbol');
