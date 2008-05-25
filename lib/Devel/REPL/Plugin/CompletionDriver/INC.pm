@@ -30,14 +30,14 @@ around complete => sub {
   # require "Module"
   if ($package->isa('PPI::Token::Quote'))
   {
-      $outsep = $insep = '/';
-      $keep_extension = 1;
+    $outsep = $insep = '/';
+    $keep_extension = 1;
   }
   elsif ($package =~ /'/)
   {
-      # the goofball is using the ancient ' package sep, we'll humor him
-      $outsep = q{'};
-      $insep = "'|::";
+    # the goofball is using the ancient ' package sep, we'll humor him
+    $outsep = q{'};
+    $insep = "'|::";
   }
 
   my @directories = split $insep, $package;
@@ -61,7 +61,13 @@ around complete => sub {
     opendir((my $dirhandle), $path);
     for my $match (grep { $_ =~ $final_re } readdir $dirhandle)
     {
-      $match =~ s/\..*// unless $keep_extension;
+      if ($match =~ /\./) {
+        $match =~ s/\..*// unless $keep_extension;
+      }
+      # this is another subdirectory, so we're not done completing
+      else {
+        $match .= $outsep;
+      }
       push @found, join $outsep, @directories, $match;
     }
   }
