@@ -24,19 +24,27 @@ around complete => sub {
 
   my $package = shift @elements;
   my $outsep  = '::';
-  my $insep   = '::';
+  my $insep   = "::";
   my $keep_extension = 0;
+  my $prefix  = '';
 
-  # require "Module"
-  if ($package->isa('PPI::Token::Quote'))
-  {
-    $outsep = $insep = '/';
-    $keep_extension = 1;
-  }
-  elsif ($package =~ /'/)
+  # require "Foo/Bar.pm" -- not supported yet, ->string doesn't work for
+  # partially completed elements
+  #if ($package->isa('PPI::Token::Quote'))
+  #{
+  #  # we need to strip off the leading quote and stash it
+  #  $package = $package->string;
+  #  my $start = index($package->quote, $package);
+  #  $prefix = substr($package->quote, 0, $start);
+
+  #  # we're completing something like: require "Foo/Bar.pm"
+  #  $outsep = $insep = '/';
+  #  $keep_extension = 1;
+  #}
+  if ($package =~ /'/)
   {
     # the goofball is using the ancient ' package sep, we'll humor him
-    $outsep = q{'};
+    $outsep = "'";
     $insep = "'|::";
   }
 
@@ -49,16 +57,25 @@ around complete => sub {
 
   my @found;
 
+  my %ignored =
+  (
+      '.'    => 1,
+      '..'   => 1,
+      '.svn' => 1,
+  );
+
   my $add_recursively;
   $add_recursively = sub {
     my ($path, $iteration, @more) = @_;
     opendir((my $dirhandle), $path);
-    for (readdir $dirhandle)
+    for (grep { !$ignored{$_} } readdir $dirhandle)
     {
-      next if /^\.+$/; # skip . and ..
-      next if $iteration == 0 && $_ !~ $final_re;
-
       my $match = $_;
+
+      # if this is the first time around, we need respect whatever the user had
+      # at the very end when he pressed tab
+      next if $iteration == 0 && $match !~ $final_re;
+
       my $fullmatch = File::Spec->rel2abs($match, $path);
       if (-d $fullmatch)
       {
@@ -67,7 +84,8 @@ around complete => sub {
       else
       {
         $match =~ s/\..*// unless $keep_extension;
-        push @found, join $outsep, @directories, @more, $match;
+        push @found, join '', $prefix,
+                              join $outsep, @directories, @more, $match;
       }
     }
   };
