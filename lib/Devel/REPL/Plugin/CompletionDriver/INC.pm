@@ -57,6 +57,9 @@ around complete => sub {
 
   my @found;
 
+  # most VCSes don't litter every single fucking directory with garbage. if you
+  # know of any other, just stick them in here. noone wants to complete
+  # Devel::REPL::Plugin::.svn
   my %ignored =
   (
       '.'    => 1,
@@ -64,6 +67,7 @@ around complete => sub {
       '.svn' => 1,
   );
 
+  # this will take a directory and add to @found all of the possible matches
   my $add_recursively;
   $add_recursively = sub {
     my ($path, $iteration, @more) = @_;
@@ -90,9 +94,13 @@ around complete => sub {
     }
   };
 
+  # look through all of 
   INC: for (@INC)
   {
     my $path = $_;
+
+    # match all of the fragments they have, so "use Moose::Meta::At<tab>"
+    # will only begin looking in ../Moose/Meta/
     for my $subdir (@directories)
     {
       $path = File::Spec->catdir($path, $subdir);
