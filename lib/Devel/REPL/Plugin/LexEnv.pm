@@ -4,6 +4,8 @@ use Moose::Role;
 use namespace::clean -except => [ 'meta' ];
 use Lexical::Persistence;
 
+with 'Devel::REPL::Plugin::FindVariable';
+
 has 'lexical_environment' => (
   isa => 'Lexical::Persistence',
   is => 'rw',
@@ -40,6 +42,14 @@ around 'execute' => sub {
   my ($self, $to_exec, @rest) = @_;
   my $wrapped = $self->lexical_environment->wrap($to_exec);
   return $self->$orig($wrapped, @rest);
+};
+
+around 'find_variable' => sub {
+  my $orig = shift;
+  my ($self, $name) = @_;
+  my $variable = $self->lexical_environment->get_context('_')->{$name};
+  return \$variable if $variable;
+  return $orig->(@_);
 };
 
 1;
