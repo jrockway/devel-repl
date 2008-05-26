@@ -47,8 +47,10 @@ around 'execute' => sub {
 around 'find_variable' => sub {
   my $orig = shift;
   my ($self, $name) = @_;
-  my $variable = $self->lexical_environment->get_context('_')->{$name};
-  return \$variable if $variable;
+
+  return \( $self->lexical_environment->get_context('_')->{$name} )
+    if exists $self->lexical_environment->get_context('_')->{$name};
+
   return $orig->(@_);
 };
 
