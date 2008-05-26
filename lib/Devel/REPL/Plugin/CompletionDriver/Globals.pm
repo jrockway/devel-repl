@@ -9,9 +9,10 @@ around complete => sub {
   my $last = $self->last_ppi_element($document);
 
   return $orig->(@_)
-    unless $last->isa('PPI::Token::Symbol');
+    unless $last->isa('PPI::Token::Symbol')
+        || $last->isa('PPI::Token::Word');
 
-  my $sigil = substr($last, 0, 1, '');
+  my $sigil = $last =~ s/^[\$\@\%\&\*]// ? $1 : undef;
   my $re = qr/^\Q$last/;
 
   my @package_fragments = split qr/::|'/, $last;
