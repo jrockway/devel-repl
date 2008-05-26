@@ -2,6 +2,8 @@ package Devel::REPL::Plugin::CompletionDriver::Methods;
 use Devel::REPL::Plugin;
 use namespace::clean -except => [ 'meta' ];
 
+with 'Devel::REPL::Plugin::FindVariable';
+
 around complete => sub {
   my $orig = shift;
   my ($self, $text, $document) = @_;
@@ -27,9 +29,20 @@ around complete => sub {
   # ..which is preceded by a word (class name)
   my $previous = $last->sprevious_sibling
     or return $orig->(@_);
-  $previous->isa('PPI::Token::Word')
+  $previous->isa('PPI::Token::Word') || $previous->isa('PPI::Token::Symbol')
     or return $orig->(@_);
-  my $class = $previous->content;
+  my $class;
+
+  # we have a variable, need to look up its class
+  if ($previous->isa('PPI::Token::Symbol')) {
+    my $object_ref = $self->find_variable($previous->content)
+      or return $orig->(@_);
+    $class = blessed($$object_ref)
+      or return $orig->(@_);
+  }
+  else  {
+    $class = $previous->content;
+  }
 
   # now we have $class->$incomplete
 
