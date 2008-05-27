@@ -27,3 +27,11 @@ sub find_variable {
 
 1;
 
+__END__
+
+=head1 NAME
+
+Devel::REPL::Plugin::FindVariable - Finds variables by name
+
+=cut
+

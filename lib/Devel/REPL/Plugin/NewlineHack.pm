@@ -18,3 +18,11 @@ EOW
 
 1;
 
+__END__
+
+=head1 NAME
+
+Devel::REPL::Plugin::NewlineHack - (deprecated)
+
+=cut
+

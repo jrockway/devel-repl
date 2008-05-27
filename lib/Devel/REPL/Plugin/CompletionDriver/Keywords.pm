@@ -26,3 +26,11 @@ around complete => sub {
 
 1;
 
+__END__
+
+=head1 NAME
+
+Devel::REPL::Plugin::CompletionDriver::Keywords - Complete Perl keywords and operators
+
+=cut
+

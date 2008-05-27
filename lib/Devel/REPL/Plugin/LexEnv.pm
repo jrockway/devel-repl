@@ -58,3 +58,12 @@ around 'execute' => sub {
 #};
 
 1;
+
+__END__
+
+=head1 NAME
+
+Devel::REPL::Plugin::LexEnv - Provide a lexical environment for the REPL
+
+=cut
+

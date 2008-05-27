@@ -20,3 +20,12 @@ around 'format_result' => sub {
 };
 
 1;
+
+__END__
+
+=head1 NAME
+
+Devel::REPL::Plugin::DDS - Format results with Data::Dump::Streamer
+
+=cut
+

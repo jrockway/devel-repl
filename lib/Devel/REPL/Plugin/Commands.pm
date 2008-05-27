@@ -62,3 +62,12 @@ around 'compile' => sub {
 };
 
 1;
+
+__END__
+
+=head1 NAME
+
+Devel::REPL::Plugin::Commands - Generic command creation plugin using injected functions
+
+=cut
+

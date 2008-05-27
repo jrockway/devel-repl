@@ -38,4 +38,9 @@ __PACKAGE__
 
 __END__
 
+=head1 NAME
+
+Devel::REPL::Plugin::CompletionDriver::Turtles - Complete Turtles-based commands
+
+=cut
 

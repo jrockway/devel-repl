@@ -50,3 +50,11 @@ around complete => sub {
 
 1;
 
+__END__
+
+=head1 NAME
+
+Devel::REPL::Plugin::CompletionDriver::Globals - Complete global variables, packages, namespaced functions
+
+=cut
+

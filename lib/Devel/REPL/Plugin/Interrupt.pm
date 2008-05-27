@@ -16,3 +16,11 @@ around 'eval' => sub {
 
 1;
 
+__END__
+
+=head1 NAME
+
+Devel::REPL::Plugin::Interrupt - traps SIGINT to kill long-running lines
+
+=cut
+

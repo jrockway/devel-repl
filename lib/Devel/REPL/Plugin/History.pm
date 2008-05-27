@@ -50,3 +50,12 @@ sub history_call {
 };
 
 1;
+
+__END__
+
+=head1 NAME
+
+Devel::REPL::Plugin::History - Keep track of all input, provide shortcuts !1, !-1
+
+=cut
+

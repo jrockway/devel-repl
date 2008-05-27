@@ -49,3 +49,12 @@ package Devel::REPL::Plugin::Packages::DefaultScratchpad;
 # declare empty scratchpad package for cleanliness
 
 1;
+
+__END__
+
+=head1 NAME
+
+Devel::REPL::Plugin::Packages - Keep track of which package the user is in
+
+=cut
+

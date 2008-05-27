@@ -51,3 +51,11 @@ sub command_nopaste {
 
 1;
 
+__END__
+
+=head1 NAME
+
+Devel::REPL::Plugin::Nopaste - #nopaste to upload session's input and output
+
+=cut
+

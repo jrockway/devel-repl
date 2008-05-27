@@ -32,3 +32,11 @@ around complete => sub {
 
 1;
 
+__END__
+
+=head1 NAME
+
+Devel::REPL::Plugin::CompletionDriver::LexEnv - Complete variable names in the REPL's lexical environment
+
+=cut
+

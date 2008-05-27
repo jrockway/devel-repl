@@ -90,3 +90,11 @@ sub last_ppi_element {
 
 1;
 
+__END__
+
+=head1 NAME
+
+Devel::REPL::Plugin::Completion - Extensible tab completion
+
+=cut
+

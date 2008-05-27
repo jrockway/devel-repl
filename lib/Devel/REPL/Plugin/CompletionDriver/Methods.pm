@@ -58,4 +58,11 @@ around complete => sub {
 
 1;
 
+__END__
+
+=head1 NAME
+
+Devel::REPL::Plugin::CompletionDriver::Methods - Complete class or object method names
+
+=cut
 

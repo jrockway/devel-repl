@@ -67,3 +67,12 @@ sub match_turtles {
 }
 
 1;
+
+__END__
+
+=head1 NAME
+
+Devel::REPL::Plugin::Turtles - Generic command creation using a read hook
+
+=cut
+

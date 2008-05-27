@@ -24,3 +24,11 @@ around 'eval' => sub {
 
 1;
 
+__END__
+
+=head1 NAME
+
+Devel::REPL::Plugin::Timing - display execution times
+
+=cut
+
