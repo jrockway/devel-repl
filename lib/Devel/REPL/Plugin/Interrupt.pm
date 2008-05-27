@@ -22,5 +22,9 @@ __END__
 
 Devel::REPL::Plugin::Interrupt - traps SIGINT to kill long-running lines
 
+=head1 AUTHOR
+
+Shawn M Moore, C<< <sartak at gmail dot com> >>
+
 =cut
 

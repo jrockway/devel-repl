@@ -42,5 +42,9 @@ __END__
 
 Devel::REPL::Plugin::CompletionDriver::Turtles - Complete Turtles-based commands
 
+=head1 AUTHOR
+
+Yuval Kogman E<lt>nothingmuch@woobling.orgE<gt>
+
 =cut
 

@@ -64,5 +64,9 @@ __END__
 
 Devel::REPL::Plugin::CompletionDriver::Methods - Complete class or object method names
 
+=head1 AUTHOR
+
+Shawn M Moore, C<< <sartak at gmail dot com> >>
+
 =cut
 

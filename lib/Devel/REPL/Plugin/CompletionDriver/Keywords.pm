@@ -32,5 +32,9 @@ __END__
 
 Devel::REPL::Plugin::CompletionDriver::Keywords - Complete Perl keywords and operators
 
+=head1 AUTHOR
+
+Shawn M Moore, C<< <sartak at gmail dot com> >>
+
 =cut
 

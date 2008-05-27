@@ -56,5 +56,9 @@ __END__
 
 Devel::REPL::Plugin::CompletionDriver::Globals - Complete global variables, packages, namespaced functions
 
+=head1 AUTHOR
+
+Shawn M Moore, C<< <sartak at gmail dot com> >>
+
 =cut
 

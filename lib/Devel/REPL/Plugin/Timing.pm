@@ -30,5 +30,9 @@ __END__
 
 Devel::REPL::Plugin::Timing - display execution times
 
+=head1 AUTHOR
+
+Shawn M Moore, C<< <sartak at gmail dot com> >>
+
 =cut
 

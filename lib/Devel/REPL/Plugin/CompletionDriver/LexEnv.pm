@@ -38,5 +38,9 @@ __END__
 
 Devel::REPL::Plugin::CompletionDriver::LexEnv - Complete variable names in the REPL's lexical environment
 
+=head1 AUTHOR
+
+Shawn M Moore, C<< <sartak at gmail dot com> >>
+
 =cut
 

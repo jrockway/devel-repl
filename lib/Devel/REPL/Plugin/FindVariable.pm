@@ -33,5 +33,9 @@ __END__
 
 Devel::REPL::Plugin::FindVariable - Finds variables by name
 
+=head1 AUTHOR
+
+Shawn M Moore, C<< <sartak at gmail dot com> >>
+
 =cut
 

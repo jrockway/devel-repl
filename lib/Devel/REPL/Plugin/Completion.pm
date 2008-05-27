@@ -96,5 +96,9 @@ __END__
 
 Devel::REPL::Plugin::Completion - Extensible tab completion
 
+=head1 AUTHOR
+
+Shawn M Moore, C<< <sartak at gmail dot com> >>
+
 =cut
 

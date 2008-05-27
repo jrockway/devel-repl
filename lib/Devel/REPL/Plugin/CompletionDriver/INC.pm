@@ -121,5 +121,9 @@ __END__
 
 Devel::REPL::Plugin::CompletionDriver::INC - Complete module names in use and require
 
+=head1 AUTHOR
+
+Shawn M Moore, C<< <sartak at gmail dot com> >>
+
 =cut
 
