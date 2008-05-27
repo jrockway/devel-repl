@@ -6,6 +6,12 @@ use namespace::clean -except => [ 'meta' ];
 sub find_variable {
     my ($self, $name) = @_;
 
+    # XXX: this code needs to live in LexEnv
+    if ($self->can('lexical_environment')) {
+        return \( $self->lexical_environment->get_context('_')->{$name} )
+            if exists $self->lexical_environment->get_context('_')->{$name};
+    }
+
     my $sigil = $name =~ s/^([\$\@\%\&\*])// ? $1 : '';
 
     my $default_package = $self->can('current_package')

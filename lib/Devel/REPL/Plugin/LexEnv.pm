@@ -44,14 +44,17 @@ around 'execute' => sub {
   return $self->$orig($wrapped, @rest);
 };
 
-around 'find_variable' => sub {
-  my $orig = shift;
-  my ($self, $name) = @_;
+# this doesn't work! yarg. we now just check $self->can('lexical_environment')
+# in FindVariable
 
-  return \( $self->lexical_environment->get_context('_')->{$name} )
-    if exists $self->lexical_environment->get_context('_')->{$name};
-
-  return $orig->(@_);
-};
+#around 'find_variable' => sub {
+#  my $orig = shift;
+#  my ($self, $name) = @_;
+#
+#  return \( $self->lexical_environment->get_context('_')->{$name} )
+#    if exists $self->lexical_environment->get_context('_')->{$name};
+#
+#  return $orig->(@_);
+#};
 
 1;
