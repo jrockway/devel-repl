@@ -3,6 +3,8 @@
 package Devel::REPL::Plugin::CompletionDriver::Turtles;
 use Devel::REPL::Plugin;
 
+use namespace::clean -except => [ "meta" ];
+
 with qw(
   Devel::REPL::Plugin::Completion
   Devel::REPL::Plugin::Turtles
