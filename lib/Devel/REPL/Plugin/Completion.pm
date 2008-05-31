@@ -24,8 +24,13 @@ has no_term_class_warning => (
   default => 0,
 );
 
-sub BEFORE_PLUGIN {
+before 'read' => sub {
   my ($self) = @_;
+
+  unless ($self->term->isa("Term::ReadLine::Gnu") and !$self->no_term_class_warning) {
+    warn "Term::ReadLine::Gnu is required for the Completion plugin to work";
+    $self->no_term_class_warning(1);
+  }
 
   my $weakself = $self;
   weaken($weakself);
@@ -33,14 +38,7 @@ sub BEFORE_PLUGIN {
   $self->term->Attribs->{attempted_completion_function} = sub {
     $weakself->_completion(@_);
   };
-}
-
-sub AFTER_PLUGIN {
-  my ($self) = @_;
-
-  warn "Term::ReadLine::Gnu is required for the Completion plugin to work"
-    unless $self->term->isa("Term::ReadLine::Gnu") and !$self->no_term_class_warning;
-}
+};
 
 sub _completion {
   my ($self, $text, $line, $start, $end) = @_;
