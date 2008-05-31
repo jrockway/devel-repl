@@ -6,6 +6,8 @@ use namespace::clean -except => [ 'meta' ];
 sub find_variable {
     my ($self, $name) = @_;
 
+    return \$self if $name eq '$_REPL';
+
     # XXX: this code needs to live in LexEnv
     if ($self->can('lexical_environment')) {
         return \( $self->lexical_environment->get_context('_')->{$name} )

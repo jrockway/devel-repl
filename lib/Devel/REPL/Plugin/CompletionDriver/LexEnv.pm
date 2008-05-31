@@ -27,7 +27,7 @@ around complete => sub {
          map  { $sigil eq '%' ? '%' . $_ : $_ }
          grep { /$re/ }
          map  { substr($_, 1) } # drop lexical's sigil
-         keys %{$self->lexical_environment->get_context('_')};
+         '$_REPL', keys %{$self->lexical_environment->get_context('_')};
 };
 
 1;
