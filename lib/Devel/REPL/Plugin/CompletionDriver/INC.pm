@@ -4,6 +4,10 @@ use File::Next;
 use File::Spec;
 use namespace::clean -except => [ 'meta' ];
 
+with qw(
+  Devel::REPL::Plugin::Completion
+);
+
 around complete => sub {
   my $orig = shift;
   my ($self, $text, $document) = @_;

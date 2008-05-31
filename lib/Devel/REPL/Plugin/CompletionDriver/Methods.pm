@@ -2,7 +2,10 @@ package Devel::REPL::Plugin::CompletionDriver::Methods;
 use Devel::REPL::Plugin;
 use namespace::clean -except => [ 'meta' ];
 
-with 'Devel::REPL::Plugin::FindVariable';
+with qw(
+  Devel::REPL::Plugin::Completion
+  Devel::REPL::Plugin::FindVariable
+);
 
 around complete => sub {
   my $orig = shift;

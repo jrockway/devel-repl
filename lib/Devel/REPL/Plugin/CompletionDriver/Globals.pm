@@ -2,6 +2,10 @@ package Devel::REPL::Plugin::CompletionDriver::Globals;
 use Devel::REPL::Plugin;
 use namespace::clean -except => [ 'meta' ];
 
+with qw(
+  Devel::REPL::Plugin::Completion
+);
+
 around complete => sub {
   my $orig = shift;
   my ($self, $text, $document) = @_;

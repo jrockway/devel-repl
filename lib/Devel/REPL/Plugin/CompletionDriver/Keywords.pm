@@ -3,6 +3,10 @@ use Devel::REPL::Plugin;
 use B::Keywords qw/@Functions @Barewords/;
 use namespace::clean -except => [ 'meta' ];
 
+with qw(
+  Devel::REPL::Plugin::Completion
+);
+
 around complete => sub {
   my $orig = shift;
   my ($self, $text, $document) = @_;

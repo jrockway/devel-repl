@@ -2,13 +2,10 @@ package Devel::REPL::Plugin::CompletionDriver::LexEnv;
 use Devel::REPL::Plugin;
 use namespace::clean -except => [ 'meta' ];
 
-sub AFTER_PLUGIN {
-  my ($_REPL) = @_;
-
-  if (!$_REPL->can('lexical_environment')) {
-    warn "Devel::REPL::Plugin::CompletionDriver::LexEnv requires Devel::REPL::Plugin::LexEnv.";
-  }
-}
+with qw(
+  Devel::REPL::Plugin::Completion
+  Devel::REPL::Plugin::LexEnv
+);
 
 around complete => sub {
   my $orig = shift;
