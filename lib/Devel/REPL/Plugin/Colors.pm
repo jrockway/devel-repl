@@ -1,6 +1,6 @@
 package Devel::REPL::Plugin::Colors;
 
-use Moose::Role;
+use Devel::REPL::Plugin;
 use Term::ANSIColor;
 use namespace::clean -except => [ 'meta' ];
 

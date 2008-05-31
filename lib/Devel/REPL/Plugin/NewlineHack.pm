@@ -6,7 +6,7 @@
 
 package Devel::REPL::Plugin::NewlineHack;
 
-use Moose::Role;
+use Devel::REPL::Plugin;
 use namespace::clean -except => [ 'meta' ];
 
 warn <<EOW;

@@ -1,6 +1,6 @@
 package Devel::REPL::Plugin::Nopaste;
 
-use Moose::Role;
+use Devel::REPL::Plugin;
 use MooseX::AttributeHelpers;
 use namespace::clean -except => [ 'meta' ];
 

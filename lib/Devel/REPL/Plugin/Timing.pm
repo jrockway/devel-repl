@@ -1,6 +1,6 @@
 package Devel::REPL::Plugin::Timing;
 
-use Moose::Role;
+use Devel::REPL::Plugin;
 use Time::HiRes 'time';
 use namespace::clean -except => [ 'meta' ];
 

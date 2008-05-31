@@ -1,5 +1,5 @@
 package Devel::REPL::Plugin::ShowClass;
-use Moose::Role;
+use Devel::REPL::Plugin;
 use namespace::clean -except => [ 'meta' ];
 
 has 'metaclass_cache' => (

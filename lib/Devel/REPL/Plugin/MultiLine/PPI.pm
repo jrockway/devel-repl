@@ -1,6 +1,6 @@
 package Devel::REPL::Plugin::MultiLine::PPI;
 
-use Moose::Role;
+use Devel::REPL::Plugin;
 use PPI;
 use namespace::clean -except => [ 'meta' ];
 

@@ -1,6 +1,6 @@
 package Devel::REPL::Plugin::DDS;
 
-use Moose::Role;
+use Devel::REPL::Plugin;
 use Data::Dump::Streamer ();
 
 around 'format_result' => sub {

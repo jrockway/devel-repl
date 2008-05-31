@@ -1,6 +1,6 @@
 package Devel::REPL::Plugin::FindVariable;
 
-use Moose::Role;
+use Devel::REPL::Plugin;
 use namespace::clean -except => [ 'meta' ];
 
 sub find_variable {

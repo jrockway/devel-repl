@@ -1,6 +1,6 @@
 package Devel::REPL::Plugin::LexEnv;
 
-use Moose::Role;
+use Devel::REPL::Plugin;
 use namespace::clean -except => [ 'meta' ];
 use Lexical::Persistence;
 

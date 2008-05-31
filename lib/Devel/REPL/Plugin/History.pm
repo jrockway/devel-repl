@@ -1,6 +1,6 @@
 package Devel::REPL::Plugin::History;
 
-use Moose::Role;
+use Devel::REPL::Plugin;
 use namespace::clean -except => [ 'meta' ];
 
 has 'history' => (

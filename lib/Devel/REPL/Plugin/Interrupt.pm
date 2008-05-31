@@ -1,6 +1,6 @@
 package Devel::REPL::Plugin::Interrupt;
 
-use Moose::Role;
+use Devel::REPL::Plugin;
 use namespace::clean -except => [ 'meta' ];
 
 around 'eval' => sub {

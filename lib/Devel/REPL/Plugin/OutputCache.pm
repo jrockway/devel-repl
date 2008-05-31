@@ -1,6 +1,6 @@
 package Devel::REPL::Plugin::OutputCache;
 
-use Moose::Role;
+use Devel::REPL::Plugin;
 use namespace::clean -except => [ 'meta' ];
 
 has output_cache => (

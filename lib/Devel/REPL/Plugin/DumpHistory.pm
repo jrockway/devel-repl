@@ -1,6 +1,6 @@
 package Devel::REPL::Plugin::DumpHistory;
 
-use Moose::Role;
+use Devel::REPL::Plugin;
 use namespace::clean -except => [ 'meta' ];
 
 ## Seems to be a sequence issue with requires
