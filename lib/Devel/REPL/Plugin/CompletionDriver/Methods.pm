@@ -2,10 +2,12 @@ package Devel::REPL::Plugin::CompletionDriver::Methods;
 use Devel::REPL::Plugin;
 use namespace::clean -except => [ 'meta' ];
 
-with qw(
-  Devel::REPL::Plugin::Completion
-  Devel::REPL::Plugin::FindVariable
-);
+sub BEFORE_PLUGIN {
+    my $self = shift;
+    for (qw/Completion FindVariable/) {
+        $self->load_plugin($_);
+    }
+}
 
 around complete => sub {
   my $orig = shift;

@@ -4,7 +4,10 @@ use Devel::REPL::Plugin;
 use MooseX::AttributeHelpers;
 use namespace::clean -except => [ 'meta' ];
 
-with 'Devel::REPL::Plugin::Turtles';
+sub BEFORE_PLUGIN {
+    my $self = shift;
+    $self->load_plugin('Turtles');
+}
 
 has complete_session => (
     metaclass => 'String',

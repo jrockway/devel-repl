@@ -9,7 +9,10 @@ B::Concise::compileOpts(qw(-nobanner));
 
 use namespace::clean -except => [ 'meta' ];
 
-with qw(Devel::REPL::Plugin::Turtles);
+sub BEFORE_PLUGIN {
+    my $self = shift;
+    $self->load_plugin('Turtles');
+}
 
 sub AFTER_PLUGIN {
   my $self = shift;

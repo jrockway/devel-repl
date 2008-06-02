@@ -2,11 +2,6 @@ package Devel::REPL::Plugin::CompletionDriver::LexEnv;
 use Devel::REPL::Plugin;
 use namespace::clean -except => [ 'meta' ];
 
-with qw(
-  Devel::REPL::Plugin::Completion
-  Devel::REPL::Plugin::LexEnv
-);
-
 around complete => sub {
   my $orig = shift;
   my ($self, $text, $document) = @_;

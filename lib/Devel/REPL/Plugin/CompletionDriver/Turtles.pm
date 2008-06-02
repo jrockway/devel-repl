@@ -5,11 +5,6 @@ use Devel::REPL::Plugin;
 
 use namespace::clean -except => [ "meta" ];
 
-with qw(
-  Devel::REPL::Plugin::Completion
-  Devel::REPL::Plugin::Turtles
-);
-
 around complete => sub {
   my $orig = shift;
   my ($self, $text, $document) = @_;

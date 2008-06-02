@@ -4,7 +4,10 @@ use Devel::REPL::Plugin;
 use namespace::clean -except => [ 'meta' ];
 use Lexical::Persistence;
 
-with 'Devel::REPL::Plugin::FindVariable';
+sub BEFORE_PLUGIN {
+    my $self = shift;
+    $self->load_plugin('FindVariable');
+}
 
 has 'lexical_environment' => (
   isa => 'Lexical::Persistence',

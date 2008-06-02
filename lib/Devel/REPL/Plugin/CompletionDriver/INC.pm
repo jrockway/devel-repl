@@ -4,9 +4,10 @@ use File::Next;
 use File::Spec;
 use namespace::clean -except => [ 'meta' ];
 
-with qw(
-  Devel::REPL::Plugin::Completion
-);
+sub BEFORE_PLUGIN {
+    my $self = shift;
+    $self->load_plugin('Completion');
+}
 
 around complete => sub {
   my $orig = shift;

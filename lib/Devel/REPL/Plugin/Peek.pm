@@ -7,7 +7,10 @@ use Devel::Peek qw(Dump);
 
 use namespace::clean -except => [ 'meta' ];
 
-with qw(Devel::REPL::Plugin::Turtles);
+sub BEFORE_PLUGIN {
+    my $self = shift;
+    $self->load_plugin('Turtles');
+}
 
 sub expr_command_peek {
   my ( $self, $eval, $code ) = @_;
