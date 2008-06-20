@@ -26,7 +26,8 @@ around 'mangle_line' => sub {
   my $line = $self->$orig(@args);
   # add a BEGIN block to set the package around at the end of the sub
   # without mangling the return value (we save it off into a global)
-  $line .= '; BEGIN { $Devel::REPL::Plugin::Packages::PKG_SAVE = __PACKAGE__; }';
+  $line .= '
+; BEGIN { $Devel::REPL::Plugin::Packages::PKG_SAVE = __PACKAGE__; }';
   return $line;
 };
 
