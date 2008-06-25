@@ -27,7 +27,7 @@ has no_term_class_warning => (
 before 'read' => sub {
   my ($self) = @_;
 
-  unless ($self->term->isa("Term::ReadLine::Gnu") and !$self->no_term_class_warning) {
+  if (!$self->term->isa("Term::ReadLine::Gnu") and !$self->no_term_class_warning) {
     warn "Term::ReadLine::Gnu is required for the Completion plugin to work";
     $self->no_term_class_warning(1);
   }
