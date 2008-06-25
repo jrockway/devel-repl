@@ -11,6 +11,7 @@ build_requires 'Test::More';
 requires 'Moose' => '0.38';
 requires 'MooseX::Object::Pluggable' => '0.0007';
 requires 'MooseX::Getopt';
+requires 'MooseX::AttributeHelpers';
 requires 'namespace::clean';
 requires 'File::HomeDir';
 requires 'File::Spec';
