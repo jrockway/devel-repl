@@ -12,7 +12,7 @@ has type => (
 );
 
 has message => (
-  isa => "Str",
+  isa => "Str|Object",
   is  => "ro",
   required => 1,
 );
