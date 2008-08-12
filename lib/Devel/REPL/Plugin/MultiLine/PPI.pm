@@ -52,15 +52,24 @@ sub line_needs_continuation
 {
   my $repl = shift;
   my $line = shift;
+
+  # add this so we can test whether the document ends in PPI::Statement::Null
+  $line .= "\n;;";
+
   my $document = PPI::Document->new(\$line);
   return 0 if !defined($document);
+
+  # adding ";" to a complete document adds a PPI::Statement::Null. we added a ;;
+  # so if it doesn't end in null then there's probably something that's
+  # incomplete
+  return 0 if $document->child(-1)->isa('PPI::Statement::Null');
 
   # this could use more logic, such as returning 1 on s/foo/ba<Enter>
   my $unfinished_structure = sub
   {
     my ($document, $element) = @_;
     return 0 unless $element->isa('PPI::Structure');
-    return 1 unless $element->start && $element->finish;
+    return 1 unless $element->finish;
     return 0;
   };
 
