@@ -17,6 +17,7 @@ has turtles_matchers => (
   metaclass => "Collection::Array",
   isa => "ArrayRef[RegexpRef|CodeRef]",
   is  => "rw",
+  lazy => 1,
   default => sub { my $prefix = shift->default_command_prefix; [qr/^ $prefix (\w+) \s* (.*) /x] },
   provides => {
     unshift => "add_turtles_matcher",
