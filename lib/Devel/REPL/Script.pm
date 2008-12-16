@@ -14,7 +14,10 @@ has 'rcfile' => (
 );
 
 has 'profile' => (
-  is => 'ro', isa => 'Str', required => 1, default => sub { 'Default' },
+  is       => 'ro',
+  isa      => 'Str',
+  required => 1,
+  default  => sub { $ENV{DEVEL_REPL_PROFILE} || 'Default' },
 );
 
 has '_repl' => (

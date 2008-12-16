@@ -68,6 +68,9 @@ To run the shell with a particular profile, use the following command:
 
  system$ re.pl --profile MyProject
 
+Alternatively, you can set the environment variable C<DEVEL_REPL_PROFILE> to
+MyProject.
+
 When the profile name is unqualified, as in the above example, the profile is
 assumed to be in the C<Devel::REPL::Profile::> namespace. Otherwise if you
 pass something which contains the C<::> character sequence, it will be loaded
