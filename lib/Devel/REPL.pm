@@ -5,7 +5,7 @@ use Moose;
 use namespace::clean -except => [ 'meta' ];
 use 5.008001; # backwards compat, doesn't warn like 5.8.1
 
-our $VERSION = '1.002001'; # 1.2.1
+our $VERSION = '1.003000'; # 1.3.0
 
 with 'MooseX::Object::Pluggable';
 
@@ -180,7 +180,7 @@ message will be returned. Here are a few examples:
  1
  $_ nosuchfunction
  Compile error: Bareword "nosuchfunction" not allowed while "strict subs" in use at (eval 130) line 5.
- 
+  
  $_ 
 
 In the first example above you see the output of the command (C<Hello,
@@ -192,7 +192,7 @@ run inside a Block structure (to protect the REPL in case the code blows up),
 which means a single statement doesn't require the semicolon. You can add one
 if you like, though.
 
-If you followed the first example in the L</"SYNOPSIS"> above, you'l have the
+If you followed the first example in the L</"SYNOPSIS"> above, you'll have the
 History and LexEnv plugins loaded (and there are many more available).
 Although the shell might support "up-arrow" history, the History plugin adds
 "bang" history to that so you can re-execute chosen commands (with e.g.
@@ -210,7 +210,7 @@ exported functions from that module are available for immediate use:
  BEGIN not safe after errors--compilation aborted at (eval 129) line 5.
  
  $_ use Carp 
- 
+  
  $_ carp "I'm dieeeing!\n"
  I'm dieeeing!
   at /usr/share/perl5/Lexical/Persistence.pm line 327
@@ -322,15 +322,19 @@ the following:
 
 =item *
 
-L<Moose> >= 0.38
+L<Moose> >= 0.64
 
 =item *
 
-L<MooseX::Object::Pluggable> >= 0.0007
+L<MooseX::Object::Pluggable> >= 0.0009
 
 =item *
 
-L<MooseX::Getopt>
+L<MooseX::Getopt> >= 0.15
+
+=item *
+
+L<MooseX::AttributeHelpers> >= 0.14
 
 =item *
 
@@ -346,11 +350,11 @@ L<Lexical::Persistence>
 
 =item *
 
-L<PPI>
+L<Data::Dump::Streamer>
 
 =item *
 
-L<Term::ANSIColor>
+L<PPI>
 
 =item *
 
@@ -383,6 +387,8 @@ Matt S Trout - mst (at) shadowcatsystems.co.uk (L<http://www.shadowcatsystems.co
 =item mgrimes - mgrimes (at) cpan dot org
 
 =item Shawn M Moore - sartak (at) gmail.com
+
+=item Oliver Gorwits
 
 =back
 
