@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use inc::Module::Install 0.67;
+use inc::Module::Install 0.76;
 
 name 'Devel-REPL';
 all_from 'lib/Devel/REPL.pm';
