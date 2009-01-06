@@ -7,11 +7,10 @@ all_from 'lib/Devel/REPL.pm';
 
 install_script 'script/re.pl';
 
-build_requires 'Test::More';
-requires 'Moose' => '0.38';
-requires 'MooseX::Object::Pluggable' => '0.0007';
-requires 'MooseX::Getopt';
-requires 'MooseX::AttributeHelpers';
+requires 'Moose' => '0.64';
+requires 'MooseX::Object::Pluggable' => '0.0009';
+requires 'MooseX::Getopt' => '0.15';
+requires 'MooseX::AttributeHelpers' => '0.14';
 requires 'namespace::clean';
 requires 'File::HomeDir';
 requires 'File::Spec';
@@ -23,6 +22,8 @@ requires 'Term::ANSIColor';
 requires 'B::Keywords';
 requires 'Task::Weaken';
 requires 'App::Nopaste';
+
+test_requires 'Test::More';
 
 auto_install;
 WriteAll;

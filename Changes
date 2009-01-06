@@ -1,3 +1,37 @@
+1.3.0
+  - OutputCache: If sub _ is already defined, then warn about it (once) and refuse to overwrite it
+  - Turn MultiLine::PPI's needs_continuation into a method line_needs_continuation
+  - Cleanup Plugin::Packages
+  - Print a warning when Completion is loaded but the Term::ReadLine object doesn't support completion
+  - Introduce error object for error_return
+  - Make compile return a single value, use is_error to test if it's bad (it's now an error object instead of undef + error str)
+  - Refactor to make it easier to add print/warn to the session
+  - Preserve $^H and %^H when using the LexEnv plugin
+  - Refactor the finding of the last element of the document into a method in Completion
+  - Use namespaace::clean in turtles completion driver
+  - Use Devel::REPL::Plugin instead of Moose::Role
+  - Use "BEFORE_PLUGIN { load_plugin }" instead of "with"
+  - Fix from Sartak for end-of-line comment bug reported by jrockway
+  - Allow exception objects.
+  - Don't initialize a turtles matcher if we don't need to
+  - Improve the MultiLine::PPI plugin by checking whether adding ;; will end in PPI::Statement::Null. If not, then there must be some incomplete structure
+  - Respect env var DEVEL_REPL_PROFILE
+  - 
+  - Devel::REPL::Plugin::Peek
+  - Devel::REPL::Plugin::B::Concise
+  - Add CompletionDriver::Turtles
+  - Devel::REPL::Error
+  - Add a Nopaste plugin. #nopaste will publish your current session using App::Nopaste
+  - Add the @INC completion driver.
+  - Devel::REPL::Plugin::CompletionDriver::Globals
+  - Add a PPI plugin for #ppi CODE
+  - CompletionDriver::Methods which currently only works on classnames
+  - FindVariable plugin, which returns a reference to a global variable by name
+  - 
+  - Update dependencies
+  - Give "NAME" pod sections to all the plugins
+  - Add AUTHOR sections where I know off the top of my head who wrote the plugin
+  - Expand some of the user documentation
 1.2.1
   - ship a working version of 1.2.0
 1.2.0
