@@ -20,6 +20,11 @@ requires 'B::Keywords';
 requires 'Task::Weaken';
 requires 'App::Nopaste';
 
+# core
+requires 'File::Spec';
+requires 'Term::ReadLine';
+requires 'Term::ANSIColor';
+
 test_requires 'Test::More';
 
 auto_install;
