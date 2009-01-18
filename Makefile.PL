@@ -7,25 +7,60 @@ all_from 'lib/Devel/REPL.pm';
 
 install_script 'script/re.pl';
 
+# core
+requires 'File::Spec';
+requires 'Term::ReadLine';
+
+# rest
 requires 'Moose' => '0.64';
 requires 'MooseX::Object::Pluggable' => '0.0009';
 requires 'MooseX::Getopt' => '0.15';
 requires 'MooseX::AttributeHelpers' => '0.14';
 requires 'namespace::clean';
 requires 'File::HomeDir';
-requires 'Lexical::Persistence';
-requires 'Data::Dump::Streamer';
-requires 'PPI';
-requires 'B::Keywords';
 requires 'Task::Weaken';
-requires 'App::Nopaste';
-
-# core
-requires 'File::Spec';
-requires 'Term::ReadLine';
+requires 'B::Concise';
 requires 'Term::ANSIColor';
+requires 'Devel::Peek';
+
+feature 'Completion plugin - extensible tab completion',
+    -default => 0,
+    'PPI' => 0;
+
+feature 'DDS plugin - better format results with Data::Dump::Streamer',
+    -default => 0,
+    'Data::Dump::Streamer' => 0;
+
+feature 'INC completion driver - tab complete module names in use and require',
+    -default => 0,
+    'File::Next' => 0;
+
+feature 'Keywords completion driver - tab complete Perl keywords and operators',
+    -default => 0,
+    'B::Keywords' => 0;
+
+feature 'LexEnv plugin - variables declared with "my" persist between statements',
+    -default => 0,
+    'Lexical::Persistence' => 0;
+
+feature 'MultiLine::PPI plugin - continue reading lines until all blocks are closed',
+    -default => 0,
+    'PPI' => 0;
+
+feature 'Nopaste plugin - upload a session\'s input and output to a Pastebin',
+    -default => 0,
+    'App::Nopaste' => 0;
+
+feature 'PPI plugin - PPI dumping of Perl code',
+    -default => 0,
+    'PPI' => 0;
+
+feature 'Refresh plugin - automatically reload libraries with Module::Refresh',
+    -default => 0,
+    'Module::Refresh' => 0;
 
 test_requires 'Test::More';
 
 auto_install;
 WriteAll;
+

@@ -164,17 +164,24 @@ REQUIREMENTS
 
     *   File::HomeDir
 
-    *   Lexical::Persistence
+    *   Task::Weaken
 
-    *   Data::Dump::Streamer
+    Optionally, some plugins if installed will require the following
+    modules:
 
     *   PPI
 
+    *   Data::Dump::Streamer
+
+    *   File::Next
+
     *   B::Keywords
 
-    *   Task::Weaken
+    *   Lexical::Persistence
 
     *   App::Nopaste
+
+    *   Module::Refresh
 
 AUTHOR
     Matt S Trout - mst (at) shadowcatsystems.co.uk
@@ -186,7 +193,7 @@ CONTRIBUTORS
     epitaph
     mgrimes - mgrimes (at) cpan dot org
     Shawn M Moore - sartak (at) gmail.com
-    Oliver Gorwits
+    Oliver Gorwits - oliver on irc.perl.org
 
 LICENSE
     This library is free software under the same terms as perl itself

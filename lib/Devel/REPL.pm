@@ -5,7 +5,7 @@ use Moose;
 use namespace::clean -except => [ 'meta' ];
 use 5.008001; # backwards compat, doesn't warn like 5.8.1
 
-our $VERSION = '1.003001'; # 1.3.1
+our $VERSION = '1.003002'; # 1.3.2
 
 with 'MooseX::Object::Pluggable';
 
@@ -346,11 +346,13 @@ L<File::HomeDir>
 
 =item *
 
-L<Lexical::Persistence>
+L<Task::Weaken>
 
-=item *
+=back
 
-L<Data::Dump::Streamer>
+Optionally, some plugins if installed will require the following modules:
+
+=over 4
 
 =item *
 
@@ -358,15 +360,27 @@ L<PPI>
 
 =item *
 
+L<Data::Dump::Streamer>
+
+=item *
+
+L<File::Next>
+
+=item *
+
 L<B::Keywords>
 
 =item *
 
-L<Task::Weaken>
+L<Lexical::Persistence>
 
 =item *
 
 L<App::Nopaste>
+
+=item *
+
+L<Module::Refresh>
 
 =back
 
@@ -388,7 +402,7 @@ Matt S Trout - mst (at) shadowcatsystems.co.uk (L<http://www.shadowcatsystems.co
 
 =item Shawn M Moore - sartak (at) gmail.com
 
-=item Oliver Gorwits
+=item Oliver Gorwits - oliver on irc.perl.org
 
 =back
 

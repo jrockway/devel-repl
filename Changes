@@ -1,3 +1,6 @@
+1.3.2
+  - make plugins be M::I features so dependencies are optional
+  - Add irc nick for oliver
 1.3.1
   - Fix brokenness in the distribution manifest
 1.3.0
