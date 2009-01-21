@@ -76,7 +76,7 @@ around complete => sub {
   my $add_recursively;
   $add_recursively = sub {
     my ($path, $iteration, @more) = @_;
-    opendir((my $dirhandle), $path);
+    opendir((my $dirhandle), $path) || return;
     for (grep { !$ignored{$_} } readdir $dirhandle)
     {
       my $match = $_;
