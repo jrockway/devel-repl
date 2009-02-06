@@ -13,6 +13,7 @@ has complete_session => (
     metaclass => 'String',
     is        => 'rw',
     isa       => 'Str',
+    lazy      => 1,
     default   => '',
     provides  => {
         append => 'add_to_session',
