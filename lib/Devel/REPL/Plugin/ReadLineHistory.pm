@@ -6,9 +6,12 @@
 package Devel::REPL::Plugin::ReadLineHistory;
 
 use Devel::REPL::Plugin;
+use File::HomeDir;
+use File::Spec;
 
-my $hist_file=$ENV{PERLREPL_HISTFILE} ||
-             (($ENV{HOME} || (getpwuid($<))[7]) . "/.perlreplhist");
+my $hist_file = $ENV{PERLREPL_HISTFILE} ||
+    File::Spec->catfile(File::HomeDir->my_home, '.perlreplhist');
+
 # HISTLEN should probably be in a config file to stop people accidentally
 # truncating their history if they start the program and forget to set
 # PERLREPL_HISTLEN

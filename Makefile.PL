@@ -3,6 +3,7 @@ use warnings;
 use inc::Module::Install 0.76;
 
 name 'Devel-REPL';
+perl_version '5.008001';
 all_from 'lib/Devel/REPL.pm';
 
 install_script 'script/re.pl';
