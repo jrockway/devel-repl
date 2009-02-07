@@ -1,6 +1,7 @@
 1.3.3
   - make Nopaste attribute lazy
   - make ReadLineHistory history file location portable
+  - resolve rt.cpan#42904 Nopaste plugin handle undef error messages
 1.3.2
   - make plugins be M::I features so dependencies are optional
   - resolve rt.cpan#42506 readdir might fail

@@ -3,6 +3,7 @@ package Devel::REPL::Plugin::Nopaste;
 use Devel::REPL::Plugin;
 use MooseX::AttributeHelpers;
 use namespace::clean -except => [ 'meta' ];
+use Scalar::Util qw(blessed);
 
 sub BEFORE_PLUGIN {
     my $self = shift;
@@ -36,8 +37,17 @@ around eval => sub {
     my $line = shift;
 
     my @ret = $orig->($self, $line, @_);
+    my @ret_as_str = map {
+        if (!defined($_)) {
+            '';
+        } elsif (blessed($_) && $_->can('stringify')) {
+            $_->stringify();
+        } else {
+            $_;
+        }
+    } @ret;
 
-    $self->add_to_session(join("\n", @ret) . "\n\n");
+    $self->add_to_session(join("\n", @ret_as_str) . "\n\n");
 
     return @ret;
 };
