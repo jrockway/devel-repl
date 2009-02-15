@@ -25,11 +25,11 @@ requires 'Term::ANSIColor';
 requires 'Devel::Peek';
 
 feature 'Completion plugin - extensible tab completion',
-    -default => 0,
+    -default => 1,
     'PPI' => 0;
 
 feature 'DDS plugin - better format results with Data::Dump::Streamer',
-    -default => 0,
+    -default => 1,
     'Data::Dump::Streamer' => 0;
 
 feature 'INC completion driver - tab complete module names in use and require',
@@ -41,11 +41,11 @@ feature 'Keywords completion driver - tab complete Perl keywords and operators',
     'B::Keywords' => 0;
 
 feature 'LexEnv plugin - variables declared with "my" persist between statements',
-    -default => 0,
+    -default => 1,
     'Lexical::Persistence' => 0;
 
 feature 'MultiLine::PPI plugin - continue reading lines until all blocks are closed',
-    -default => 0,
+    -default => 1,
     'PPI' => 0;
 
 feature 'Nopaste plugin - upload a session\'s input and output to a Pastebin',
@@ -53,7 +53,7 @@ feature 'Nopaste plugin - upload a session\'s input and output to a Pastebin',
     'App::Nopaste' => 0;
 
 feature 'PPI plugin - PPI dumping of Perl code',
-    -default => 0,
+    -default => 1,
     'PPI' => 0;
 
 feature 'Refresh plugin - automatically reload libraries with Module::Refresh',
