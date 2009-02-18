@@ -9,7 +9,7 @@ around 'format_result' => sub {
   my $to_dump = (@_ > 1) ? [@_] : $_[0];
   my $out;
   if (ref $to_dump) {
-    if (overload::Method($to_dump, '""') {
+    if (overload::Method($to_dump, '""')) {
       $out = "$to_dump";
     } else {
       my $dds = Data::Dump::Streamer->new;
