@@ -9,10 +9,14 @@ around 'format_result' => sub {
   my $to_dump = (@_ > 1) ? [@_] : $_[0];
   my $out;
   if (ref $to_dump) {
-    my $dds = Data::Dump::Streamer->new;
-    $dds->Freezer(sub { "$_[0]"; });
-    $dds->Data($to_dump);
-    $out = $dds->Out;
+    if (overload::Method($to_dump, '""') {
+      $out = "$to_dump";
+    } else {
+      my $dds = Data::Dump::Streamer->new;
+      $dds->Freezer(sub { "$_[0]"; });
+      $dds->Data($to_dump);
+      $out = $dds->Out;
+    }
   } else {
     $out = $to_dump;
   }
