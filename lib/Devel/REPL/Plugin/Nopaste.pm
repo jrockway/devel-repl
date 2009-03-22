@@ -21,6 +21,14 @@ has complete_session => (
     },
 );
 
+has paste_title => (
+    metaclass => 'String',
+    is        => 'rw',
+    isa       => 'Str',
+    lazy      => 1,
+    default   => 'Devel::REPL session',
+);
+
 before eval => sub {
     my $self = shift;
     my $line = shift;
@@ -58,9 +66,15 @@ sub command_nopaste {
     require App::Nopaste;
     return App::Nopaste->nopaste(
         text => $self->complete_session,
-        desc => "Devel::REPL session",
+        desc => $self->paste_title(),
         lang => "perl",
     );
+}
+
+sub command_pastetitle {
+    my ( $self, undef, $title ) = @_;
+
+    $self->paste_title( $title );
 }
 
 1;
@@ -71,9 +85,35 @@ __END__
 
 Devel::REPL::Plugin::Nopaste - #nopaste to upload session's input and output
 
+=head1 COMMANDS
+
+This module provides these commands to your Devel::REPL shell:
+
+=head2 #nopaste
+
+The C<#nopaste> sends a transcript of your session to a nopaste
+site.
+
+=head2 #pastetitle
+
+The C<#pastetitle> command allows you to set the title of the paste on
+the nopaste site. For example:
+
+C<#pastetitle example of some code>
+
+defaults to 'Devel::REPL session'
+
 =head1 AUTHOR
 
 Shawn M Moore, C<< <sartak at gmail dot com> >>
+
+=head1 CONTRIBUTORS
+
+=over 4
+
+=item Andrew Moore - C<< <amoore@cpan.org> >>
+
+=back
 
 =cut
 

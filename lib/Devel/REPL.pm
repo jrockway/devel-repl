@@ -404,6 +404,8 @@ Matt S Trout - mst (at) shadowcatsystems.co.uk (L<http://www.shadowcatsystems.co
 
 =item Oliver Gorwits - oliver on irc.perl.org
 
+=item Andrew Moore - C<< <amoore@cpan.org> >>
+
 =back
 
 =head1 LICENSE
