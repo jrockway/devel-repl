@@ -23,7 +23,6 @@ has complete_session => (
 );
 
 has paste_title => (
-    metaclass => 'String',
     is        => 'rw',
     isa       => 'Str',
     lazy      => 1,
