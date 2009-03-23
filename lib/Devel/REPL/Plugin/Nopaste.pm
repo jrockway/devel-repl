@@ -2,6 +2,7 @@ package Devel::REPL::Plugin::Nopaste;
 
 use Devel::REPL::Plugin;
 use MooseX::AttributeHelpers;
+use Moose::Util::TypeConstraints;
 use namespace::clean -except => [ 'meta' ];
 use Scalar::Util qw(blessed);
 
@@ -29,12 +30,21 @@ has paste_title => (
     default   => 'Devel::REPL session',
 );
 
+has 'nopaste_format' => (
+    is      => 'rw',
+    isa     => enum( [qw[ comment_code comment_output ]] ),
+    lazy    => 1,
+    default => 'comment_output',
+);
+
 before eval => sub {
     my $self = shift;
     my $line = shift;
 
-    # prepend each line with #
-    $line =~ s/^/# /mg;
+    if ( $self->nopaste_format() eq 'comment_code' ) {
+        # prepend each line with #
+        $line =~ s/^/# /mg;
+    }
 
     $self->add_to_session($line . "\n");
 };
@@ -54,6 +64,11 @@ around eval => sub {
             $_;
         }
     } @ret;
+
+    if ( $self->nopaste_format() eq 'comment_output' ) {
+        # prepend each line with #
+        map { $_ =~ s/^/# /mg } @ret_as_str;
+    }
 
     $self->add_to_session(join("\n", @ret_as_str) . "\n\n");
 
@@ -102,6 +117,25 @@ the nopaste site. For example:
 C<#pastetitle example of some code>
 
 defaults to 'Devel::REPL session'
+
+=head1 CONFIGURATION
+
+=head2 nopaste_format
+
+The format sent to the nopaste server can be adjusted with the
+C<nopaste_format> option. By default, the output of each perl
+statement is commented out, and the perl statements themselves are
+not. This can be reversed by setting the C<nopaste_format> attribute
+to C<comment_code> like this in your re.pl file:
+
+C<< $_REPL->nopaste_format( 'comment_code' ); >>
+
+The default of commenting out the output would be set like this:
+
+C<< $_REPL->nopaste_format( 'comment_output' ); >>
+
+These options can be set during a Devel::REPL session, but only affect
+the future parts of the session, not the past parts.
 
 =head1 AUTHOR
 
