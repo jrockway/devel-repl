@@ -13,7 +13,7 @@ requires 'File::Spec';
 requires 'Term::ReadLine';
 
 # rest
-requires 'Moose' => '0.64';
+requires 'Moose' => '0.74';
 requires 'MooseX::Object::Pluggable' => '0.0009';
 requires 'MooseX::Getopt' => '0.15';
 requires 'MooseX::AttributeHelpers' => '0.14';
