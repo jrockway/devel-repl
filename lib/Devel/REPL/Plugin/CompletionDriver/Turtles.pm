@@ -1,9 +1,11 @@
-#!/usr/bin/perl
-
 package Devel::REPL::Plugin::CompletionDriver::Turtles;
 use Devel::REPL::Plugin;
-
 use namespace::clean -except => [ "meta" ];
+
+sub BEFORE_PLUGIN {
+    my $self = shift;
+    $self->load_plugin('Completion');
+}
 
 around complete => sub {
   my $orig = shift;

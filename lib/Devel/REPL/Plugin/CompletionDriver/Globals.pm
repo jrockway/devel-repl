@@ -2,6 +2,11 @@ package Devel::REPL::Plugin::CompletionDriver::Globals;
 use Devel::REPL::Plugin;
 use namespace::clean -except => [ 'meta' ];
 
+sub BEFORE_PLUGIN {
+    my $self = shift;
+    $self->load_plugin('Completion');
+}
+
 around complete => sub {
   my $orig = shift;
   my ($self, $text, $document) = @_;
