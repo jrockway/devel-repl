@@ -1,4 +1,9 @@
-upcoming
+1.3.5
+  - resolve rt.cpan#43807 three Completion drivers not loading Completion plugin
+  - resolve rt.cpan#43808 infinite recursion on Plugin::Commands when Plugin::Packages not loaded
+  - resolve rt.cpan#44902 warning due to deprecated use of alias_method in Plugin.pm
+  - add comment formatting option to the nopaste plugin
+  - add #pastetitle command to Nopaste plugin
   - If the object we're dumping has stringification overloading, then use
     it directly
 1.3.4
