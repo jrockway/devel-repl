@@ -13,6 +13,7 @@ has 'command_set' => (
 
 sub BEFORE_PLUGIN {
   my ($self) = @_;
+  $self->load_plugin('Packages');
   unless ($self->can('setup_commands')) {
     $self->meta->add_method('setup_commands' => sub {});
   }
