@@ -57,8 +57,8 @@ around complete => sub {
 
   return $orig->(@_),
          grep { $_ =~ $re }
-         map  { $_->{name} }
-         $metaclass->compute_all_applicable_methods;
+         map  { $_->name }
+         $metaclass->get_all_methods;
 };
 
 1;

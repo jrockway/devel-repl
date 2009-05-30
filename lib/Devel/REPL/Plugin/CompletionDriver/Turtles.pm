@@ -24,8 +24,8 @@ around complete => sub {
         map { "$pre$_" }
         grep { $_ =~ $filter }
         map { /^expr?_command_(\w+)/ ? $1 : () }
-        map { $_->{name} }
-        $self->meta->compute_all_applicable_methods
+        map { $_->name }
+        $self->meta->get_all_methods
       ),
     );
   } else {
