@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use inc::Module::Install 0.76;
+use inc::Module::Install 0.91;
 
 name 'Devel-REPL';
 perl_version '5.008001';
