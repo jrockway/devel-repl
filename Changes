@@ -1,4 +1,4 @@
-
+1.3.7
   - resolve rt.cpan#44919 fix deprecated use of compute_all_applicable_methods
 1.3.6
   - had to cut a new release, something went wrong with use of M::I
