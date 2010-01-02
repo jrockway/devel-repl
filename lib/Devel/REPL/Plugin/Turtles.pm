@@ -3,8 +3,6 @@ use Devel::REPL::Plugin;
 
 use Scalar::Util qw(reftype);
 
-use MooseX::AttributeHelpers;
-
 use namespace::clean -except => [ 'meta' ];
 
 has default_command_prefix => (
@@ -14,13 +12,13 @@ has default_command_prefix => (
 );
 
 has turtles_matchers => (
-  metaclass => "Collection::Array",
+  traits => ["Array"],
   isa => "ArrayRef[RegexpRef|CodeRef]",
   is  => "rw",
   lazy => 1,
   default => sub { my $prefix = shift->default_command_prefix; [qr/^ $prefix (\w+) \s* (.*) /x] },
-  provides => {
-    unshift => "add_turtles_matcher",
+  handles => {
+    add_turtles_matcher => 'unshift',
   },
 );
 

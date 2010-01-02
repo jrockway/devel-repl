@@ -1,7 +1,6 @@
 package Devel::REPL::Plugin::Nopaste;
 
 use Devel::REPL::Plugin;
-use MooseX::AttributeHelpers;
 use Moose::Util::TypeConstraints;
 use namespace::clean -except => [ 'meta' ];
 use Scalar::Util qw(blessed);
@@ -12,7 +11,7 @@ sub BEFORE_PLUGIN {
 }
 
 has complete_session => (
-    metaclass => 'String',
+    traits    => ['String'],
     is        => 'rw',
     isa       => 'Str',
     lazy      => 1,
