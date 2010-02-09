@@ -406,6 +406,8 @@ Matt S Trout - mst (at) shadowcatsystems.co.uk (L<http://www.shadowcatsystems.co
 
 =item Andrew Moore - C<< <amoore@cpan.org> >>
 
+=item Norbert Buchmuller C<< <norbi@nix.hu> >>
+
 =back
 
 =head1 LICENSE

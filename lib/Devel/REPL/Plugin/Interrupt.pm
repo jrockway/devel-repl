@@ -60,8 +60,4 @@ can still use Ctrl-D to exit.)
 
 Shawn M Moore, C<< <sartak at gmail dot com> >>
 
-=head1 CONTRIBUTORS
-
-Norbert Buchmuller C<< <norbi@nix.hu> >>
-
 =cut
