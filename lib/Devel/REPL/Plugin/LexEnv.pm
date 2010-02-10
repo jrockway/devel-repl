@@ -68,5 +68,24 @@ __END__
 
 Devel::REPL::Plugin::LexEnv - Provide a lexical environment for the REPL
 
+=head1 SYNOPSIS
+
+ # in your re.pl file:
+ use Devel::REPL;
+ my $repl = Devel::REPL->new;
+ $repl->load_plugin('LexEnv');
+
+ $repl->lexical_environment->do(<<'CODEZ');
+ use FindBin;
+ use lib "$FindBin::Bin/../lib";
+ use MyApp::Schema;
+ my $s = MyApp::Schema->connect('dbi:Pg:dbname=foo','broseph','elided');
+ CODEZ
+
+ $repl->run;
+
+ # after you run re.pl:
+ $ warn $s->resultset('User')->first->first_name # <-- note that $s works
+
 =cut
 

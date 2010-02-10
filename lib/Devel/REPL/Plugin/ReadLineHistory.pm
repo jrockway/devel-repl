@@ -1,6 +1,6 @@
 # First cut at using the readline history directly rather than reimplementing
 # it. It does save history but it's a little crappy; still playing with it ;)
-# 
+#
 # epitaph, 22nd April 2007
 
 package Devel::REPL::Plugin::ReadLineHistory;

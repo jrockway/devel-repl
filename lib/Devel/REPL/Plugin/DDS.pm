@@ -31,5 +31,23 @@ __END__
 
 Devel::REPL::Plugin::DDS - Format results with Data::Dump::Streamer
 
+=head1 SYNOPSIS
+
+ # in your re.pl file:
+ use Devel::REPL;
+ my $repl = Devel::REPL->new;
+ $repl->load_plugin('DDS');
+ $repl->run;
+
+ # after you run re.pl:
+ $ map $_*2, ( 1,2,3 )
+ $ARRAY1 = [
+             2,
+             4,
+             6
+           ];
+
+ $
+
 =cut
 
