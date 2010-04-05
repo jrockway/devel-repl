@@ -5,149 +5,14 @@ use Moose;
 use namespace::clean -except => [ 'meta' ];
 use 5.008001; # backwards compat, doesn't warn like 5.8.1
 
-our $VERSION = '1.003012';
+our $VERSION = '1.009009_00'; # 1.9.9_00
 
-with 'MooseX::Object::Pluggable';
+with 'Devel::REPL::Loop::Default', 'Devel::REPL::Frontend::Terminal',
+  'Devel::REPL::Backend::Default', 'MooseX::Object::Pluggable';
 
-use Devel::REPL::Error;
-
-has 'term' => (
-  is => 'rw', required => 1,
-  default => sub { Term::ReadLine->new('Perl REPL') }
-);
-
-has 'prompt' => (
-  is => 'rw', required => 1,
-  default => sub { '$ ' }
-);
-
-has 'out_fh' => (
-  is => 'rw', required => 1, lazy => 1,
-  default => sub { shift->term->OUT || \*STDOUT; }
-);
-
-has 'exit_repl' => (
-  is => 'rw', required => 1,
-  default => sub { 0 }
-);
-
-sub run {
-  my ($self) = @_;
-  while ($self->run_once_safely) {
-    # keep looping unless we want to exit REPL
-    last if $self->exit_repl;
-  }
-}
-
-sub run_once_safely {
-  my ($self, @args) = @_;
-
-  my $ret = eval { $self->run_once(@args) };
-
-  if ($@) {
-    my $error = $@;
-    eval { $self->print("Error! - $error\n"); };
-    return 1;
-  } else {
-    return $ret;
-  }
-}
-
-sub run_once {
-  my ($self) = @_;
-
-  my $line = $self->read;
-  return unless defined($line);     # undefined value == EOF
-
-  my @ret = $self->formatted_eval($line);
-
-  $self->print(@ret) unless $self->exit_repl;
-
-  return 1;
-}
-
-sub formatted_eval {
-  my ( $self, @args ) = @_;
-
-  my @ret = $self->eval(@args);
-
-  return $self->format(@ret);
-}
-
-sub format {
-  my ( $self, @stuff ) = @_;
-
-  if ( $self->is_error($stuff[0]) ) {
-    return $self->format_error(@stuff);
-  } else {
-    return $self->format_result(@stuff);
-  }
-}
-
-sub format_result {
-  my ( $self, @stuff ) = @_;
-
-  return @stuff;
-}
-
-sub format_error {
-  my ( $self, $error ) = @_;
-  return $error->stringify;
-}
-
-sub is_error {
-  my ( $self, $thingy ) = @_;
-  blessed($thingy) and $thingy->isa("Devel::REPL::Error");
-}
-
-sub read {
-  my ($self) = @_;
-  return $self->term->readline($self->prompt);
-}
-
-sub eval {
-  my ($self, $line) = @_;
-  my $compiled = $self->compile($line);
-  return $compiled unless defined($compiled) and not $self->is_error($compiled);
-  return $self->execute($compiled);
-}
-
-sub compile {
-  my ( $_REPL, @args ) = @_;
-  my $compiled = eval $_REPL->wrap_as_sub(@args);
-  return $_REPL->error_return("Compile error", $@) if $@;
-  return $compiled;
-}
-
-sub wrap_as_sub {
-  my ($self, $line, %args) = @_;
-  return qq!sub {\n!. ( $args{no_mangling} ? $line : $self->mangle_line($line) ).qq!\n}\n!;
-}
-
-sub mangle_line {
-  my ($self, $line) = @_;
-  return $line;
-}
-
-sub execute {
-  my ($self, $to_exec, @args) = @_;
-  my @ret = eval { $to_exec->(@args) };
-  return $self->error_return("Runtime error", $@) if $@;
-  return @ret;
-}
-
-sub error_return {
-  my ($self, $type, $error) = @_;
-  return Devel::REPL::Error->new( type => $type, message => $error );
-}
-
-sub print {
-  my ($self, @ret) = @_;
-  my $fh = $self->out_fh;
-  no warnings 'uninitialized';
-  print $fh "@ret";
-  print $fh "\n" if $self->term->ReadLine =~ /Gnu/;
-}
+# a little bit like being your own grandpa
+sub frontend { $_[0] }
+sub backend  { $_[0] }
 
 =head1 NAME
 
@@ -227,7 +92,6 @@ To quit from the shell, hit C<Ctrl+D> or C<Ctrl+C>.
 
   MSWin32 NOTE: control keys won't work if TERM=dumb
   because readline functionality will be disabled.
-
 
 =head2 Run Control Files
 
