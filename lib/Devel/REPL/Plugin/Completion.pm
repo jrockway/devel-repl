@@ -27,9 +27,10 @@ has no_term_class_warning => (
 before 'read' => sub {
   my ($self) = @_;
 
-  if (!$self->term->isa("Term::ReadLine::Gnu") and !$self->no_term_class_warning) {
-    warn "Term::ReadLine::Gnu is required for the Completion plugin to work";
-    $self->no_term_class_warning(1);
+  if ((!$self->term->isa("Term::ReadLine::Gnu") and !$self->term->isa("Term::ReadLine::Perl"))
+        and !$self->no_term_class_warning) {
+     warn "Term::ReadLine::Gnu or Term::ReadLine::Perl is required for the Completion plugin to work";
+     $self->no_term_class_warning(1);
   }
 
   my $weakself = $self;
@@ -38,10 +39,16 @@ before 'read' => sub {
   $self->term->Attribs->{attempted_completion_function} = sub {
     $weakself->_completion(@_);
   };
+
+  $self->term->Attribs->{completion_function} = sub {
+    $weakself->_completion(@_);
+  };
 };
 
 sub _completion {
+  my $is_trp = scalar(@_) == 4 ? 1 : 0;
   my ($self, $text, $line, $start, $end) = @_;
+  $end = $start+length($text) if $is_trp;
 
   # we're discarding everything after the cursor for completion purposes
   # we can't just use $text because we want all the code before the cursor to
@@ -56,19 +63,23 @@ sub _completion {
   my @matches = $self->complete($text, $document);
 
   # iterate through the completions
-  return $self->term->completion_matches($text, sub {
-    my ($text, $state) = @_;
+  if ($is_trp) {
+     return @matches;
+  } else {
+     return $self->term->completion_matches($text, sub {
+           my ($text, $state) = @_;
 
-    if (!$state) {
-      $self->current_matches(\@matches);
-      $self->match_index(0);
-    }
-    else {
-      $self->match_index($self->match_index + 1);
-    }
+           if (!$state) {
+              $self->current_matches(\@matches);
+              $self->match_index(0);
+           }
+           else {
+              $self->match_index($self->match_index + 1);
+           }
 
-    return $self->current_matches->[$self->match_index];
-  });
+           return $self->current_matches->[$self->match_index];
+        });
+  }
 }
 
 sub complete {
