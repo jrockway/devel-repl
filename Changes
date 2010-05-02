@@ -1,5 +1,7 @@
   - Add doc to a bunch of plugins
   - Add DDC plugin (like DDS but Data::Dumper::Concise)
+1.3.9
+  - Fix scary Moose 0.98 box, adding a check for ->isa('Devel::REPL') in Meta/Plugin.pm
 1.3.8
   - resolve rt.cpan#44231 SIGINT does not quit the REPL just kills the line being edited
 1.3.7
