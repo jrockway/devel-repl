@@ -2,6 +2,7 @@ package Devel::REPL::Plugin::DDS;
 
 use Devel::REPL::Plugin;
 use Data::Dump::Streamer ();
+use Scalar::Util qw(refaddr);
 
 around 'format_result' => sub {
   my $orig = shift;
@@ -14,6 +15,7 @@ around 'format_result' => sub {
     } else {
       my $dds = Data::Dump::Streamer->new;
       #$dds->Freezer(sub { "$_[0]"; });
+      $dds->Names($self->name_for($to_dump)) if $self->can('name_for');
       $dds->Data($to_dump);
       $out = $dds->Out;
     }
