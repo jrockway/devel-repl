@@ -20,10 +20,10 @@ my $hist_len=$ENV{PERLREPL_HISTLEN} || 100;
 around 'run' => sub {
   my $orig=shift;
   my ($self, @args)=@_;
-  if ($self->term->Attribs->{ReadLine} eq 'Term::ReadLine::Gnu') {
+  if ($self->term->ReadLine eq 'Term::ReadLine::Gnu') {
      $self->term->stifle_history($hist_len);
   }
-  if ($self->term->Attribs->{ReadLine} eq 'Term::ReadLine::Perl') {
+  if ($self->term->ReadLine eq 'Term::ReadLine::Perl') {
      $self->term->Attribs->{MaxHistorySize} = $hist_len;
   }
   -f($hist_file) && $self->term->ReadHistory($hist_file);
