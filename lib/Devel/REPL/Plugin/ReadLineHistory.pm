@@ -18,19 +18,42 @@ my $hist_file = $ENV{PERLREPL_HISTFILE} ||
 my $hist_len=$ENV{PERLREPL_HISTLEN} || 100;
 
 around 'run' => sub {
-  my $orig=shift;
-  my ($self, @args)=@_;
-  if ($self->term->ReadLine eq 'Term::ReadLine::Gnu') {
-     $self->term->stifle_history($hist_len);
-  }
-  if ($self->term->ReadLine eq 'Term::ReadLine::Perl') {
-     $self->term->Attribs->{MaxHistorySize} = $hist_len;
-  }
-  -f($hist_file) && $self->term->ReadHistory($hist_file);
-  $self->term->Attribs->{do_expand}=1;
-  $self->$orig(@args);
-  $self->term->WriteHistory($hist_file) ||
-    $self->print("warning: failed to write history file $hist_file");
+   my $orig=shift;
+   my ($self, @args)=@_;
+   if ($self->term->ReadLine eq 'Term::ReadLine::Gnu') {
+      $self->term->stifle_history($hist_len);
+   }
+   if ($self->term->ReadLine eq 'Term::ReadLine::Perl') {
+      $self->term->Attribs->{MaxHistorySize} = $hist_len;
+   }
+   if (-f($hist_file)) {
+      if ($self->term->ReadLine eq 'Term::ReadLine::Gnu') {
+         $self->term->ReadHistory($hist_file);
+      }
+      if ($self->term->ReadLine eq 'Term::ReadLine::Perl') {
+         open HIST, $hist_file or die "ReadLineHistory: could not open $hist_file: $!\n";
+         while (my $line = <HIST>) {
+            chomp $line;
+            $self->term->addhistory($line);
+         }
+         close HIST;
+      }
+   }
+   $self->term->Attribs->{do_expand}=1;
+   $self->$orig(@args);
+   if ($self->term->ReadLine eq 'Term::ReadLine::Gnu') {
+      $self->term->WriteHistory($hist_file) ||
+      $self->print("warning: failed to write history file $hist_file");
+   }
+   if ($self->term->ReadLine eq 'Term::ReadLine::Perl') {
+      my @lines = $self->term->GetHistory() if $self->term->can('GetHistory');
+      if( open HIST, ">$hist_file" ) {
+         print HIST join("\n",@lines);
+         close HIST;
+      } else {
+         $self->print("warning: unable to WriteHistory to $hist_file");
+      }
+   }
 };
 
 1;
