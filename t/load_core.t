@@ -10,8 +10,10 @@ use_ok('Devel::REPL::Plugin::DumpHistory');
 use_ok('Devel::REPL::Plugin::FancyPrompt');
 use_ok('Devel::REPL::Plugin::FindVariable');
 use_ok('Devel::REPL::Plugin::History');
-use_ok('Devel::REPL::Plugin::Interrupt');
-use_ok('Devel::REPL::Plugin::NewlineHack');
+# Interrupt depends on Sys::SigAction which
+# is not available on win32 so we skip the
+# test there
+use_ok('Devel::REPL::Plugin::Interrupt') unless $^O eq 'MSWin32';
 use_ok('Devel::REPL::Plugin::OutputCache');
 use_ok('Devel::REPL::Plugin::Packages');
 use_ok('Devel::REPL::Plugin::Peek');
