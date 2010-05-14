@@ -5,7 +5,7 @@ use Moose;
 use namespace::clean -except => [ 'meta' ];
 use 5.008001; # backwards compat, doesn't warn like 5.8.1
 
-our $VERSION = '1.003009_01'; # 1.3.9_01
+our $VERSION = '1.003009_02'; # 1.3.9_02
 
 with 'MooseX::Object::Pluggable';
 
@@ -26,10 +26,16 @@ has 'out_fh' => (
   default => sub { shift->term->OUT || \*STDOUT; }
 );
 
+has 'exit_repl' => (
+  is => 'rw', required => 1,
+  default => sub { 0 }
+);
+
 sub run {
   my ($self) = @_;
   while ($self->run_once_safely) {
-    # keep looping
+    # keep looping unless we want to exit REPL
+    last if $self->exit_repl;
   }
 }
 
@@ -51,11 +57,11 @@ sub run_once {
   my ($self) = @_;
 
   my $line = $self->read;
-  return unless defined($line); # undefined value == EOF
+  return unless defined($line);     # undefined value == EOF
 
   my @ret = $self->formatted_eval($line);
 
-  $self->print(@ret);
+  $self->print(@ret) unless $self->exit_repl;
 
   return 1;
 }
