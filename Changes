@@ -1,4 +1,5 @@
-  - Add exit_repl attribute as a non-signal related way to indicate the REPL should stop running.
+1.3.10
+- Add exit_repl attribute as a non-signal related way to indicate the REPL should stop running.
 1.3.9_02
   - resolve rt.cpan#45879 by implementing Term::ReadLine::Perl support for ReadLineHistory
   - resolve rt.cpan#55491 by skipping Interrupt test for win32
