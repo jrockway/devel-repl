@@ -75,5 +75,19 @@ __END__
 
 Devel::REPL::Plugin::Turtles - Generic command creation using a read hook
 
+=head1 DESCRIPTION
+
+By default, this plugin allows calling commands using a read hook
+to detect a default_command_prefix followed by the command name,
+say MYCMD as an example.  The actual routine to call for the
+command is constructed by looking for subs named 'command_MYCMD'
+or 'expr_MYCMD' and executing them.
+
+=head2 NOTE
+
+The C<default_command_prefix> is C<qr/\#/> so care must be taken
+if other uses for that character are needed (e.g., '#' for the
+shell escape character in the PDL shell.
+
 =cut
 
