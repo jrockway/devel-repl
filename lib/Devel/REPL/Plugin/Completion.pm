@@ -36,50 +36,64 @@ before 'read' => sub {
   my $weakself = $self;
   weaken($weakself);
 
-  $self->term->Attribs->{attempted_completion_function} = sub {
-    $weakself->_completion(@_);
-  };
+  if ($self->term->isa("Term::ReadLine::Gnu")) {
+     $self->term->Attribs->{attempted_completion_function} = sub {
+        $weakself->_completion(@_);
+     };
+  }
 
-  $self->term->Attribs->{completion_function} = sub {
-    $weakself->_completion(@_);
-  };
+  if ($self->term->isa("Term::ReadLine::Perl")) {
+     $self->term->Attribs->{completion_function} = sub {
+        $weakself->_completion(@_);
+     };
+  }
+
 };
 
 sub _completion {
-  my $is_trp = scalar(@_) == 4 ? 1 : 0;
-  my ($self, $text, $line, $start, $end) = @_;
-  $end = $start+length($text) if $is_trp;
+   my $is_trp = scalar(@_) == 4 ? 1 : 0;
+   my ($self, $text, $line, $start, $end) = @_;
+   $end = $start+length($text) if $is_trp;
 
-  # we're discarding everything after the cursor for completion purposes
-  # we can't just use $text because we want all the code before the cursor to
-  # matter, not just the current word
-  substr($line, $end) = '';
+   # we're discarding everything after the cursor for completion purposes
+   # we can't just use $text because we want all the code before the cursor to
+   # matter, not just the current word
+   substr($line, $end) = '';
 
-  my $document = PPI::Document->new(\$line);
-  return unless defined($document);
+   my $document = PPI::Document->new(\$line);
+   return unless defined($document);
 
-  $document->prune('PPI::Token::Whitespace');
+   $document->prune('PPI::Token::Whitespace');
 
-  my @matches = $self->complete($text, $document);
+   my @matches = $self->complete($text, $document);
 
-  # iterate through the completions
-  if ($is_trp) {
-     return @matches;
-  } else {
-     return $self->term->completion_matches($text, sub {
-           my ($text, $state) = @_;
+   # iterate through the completions
+   if ($is_trp) {
+      if (scalar(@matches)) {
+         return @matches;
+      } else {
+         return readline::rl_filename_list($text);
+      }
+   } else {
+      if (scalar(@matches)) {
+         return $self->term->completion_matches($text, sub {
+               my ($text, $state) = @_;
 
-           if (!$state) {
-              $self->current_matches(\@matches);
-              $self->match_index(0);
-           }
-           else {
-              $self->match_index($self->match_index + 1);
-           }
+               if (!$state) {
+                  $self->current_matches(\@matches);
+                  $self->match_index(0);
+               }
+               else {
+                  $self->match_index($self->match_index + 1);
+               }
 
-           return $self->current_matches->[$self->match_index];
-        });
-  }
+               return $self->current_matches->[$self->match_index];
+            });
+      } else {
+         # fall back to filename completion for Term::ReadLine::Gnu
+         return;
+      }
+   }
 }
 
 sub complete {
