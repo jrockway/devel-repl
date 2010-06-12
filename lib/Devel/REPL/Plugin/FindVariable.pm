@@ -23,7 +23,8 @@ sub find_variable {
 
     my $meta = Class::MOP::Class->initialize($package);
 
-    return unless $meta->has_package_symbol("$sigil$name");
+    # Class::MOP::Package::has_package_symbol method *requires* a sigil
+    return unless length($sigil) and $meta->has_package_symbol("$sigil$name");
     $meta->get_package_symbol("$sigil$name");
 }
 
