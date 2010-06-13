@@ -27,13 +27,13 @@ USAGE
     given. If the code executes successfully you'll be shown the result,
     otherwise an error message will be returned. Here are a few examples:
 
-      $_ print "Hello, world!\n"
-      Hello, world!
-      1
-      $_ nosuchfunction
-      Compile error: Bareword "nosuchfunction" not allowed while "strict subs" in use at (eval 130) line 5.
-      
-      $_
+     $_ print "Hello, world!\n"
+     Hello, world!
+     1
+     $_ nosuchfunction
+     Compile error: Bareword "nosuchfunction" not allowed while "strict subs" in use at (eval 130) line 5.
+
+     $_
 
     In the first example above you see the output of the command ("Hello,
     world!"), if any, and then the return value of the statement (1).
@@ -56,25 +56,24 @@ USAGE
     When you "use" any Perl module, the "import()" will work as expected -
     the exported functions from that module are available for immediate use:
 
-      $_ carp "I'm dieeeing!\n"
-      String found where operator expected at (eval 129) line 5, near "carp "I'm dieeeing!\n""
-              (Do you need to predeclare carp?)
-      Compile error: syntax error at (eval 129) line 5, near "carp "I'm dieeeing!\n""
-      BEGIN not safe after errors--compilation aborted at (eval 129) line 5.
-      
-      $_ use Carp 
-       
-      $_ carp "I'm dieeeing!\n"
-      I'm dieeeing!
-       at /usr/share/perl5/Lexical/Persistence.pm line 327
-      1
-      $_
+     $_ carp "I'm dieeeing!\n"
+     String found where operator expected at (eval 129) line 5, near "carp "I'm dieeeing!\n""
+             (Do you need to predeclare carp?)
+     Compile error: syntax error at (eval 129) line 5, near "carp "I'm dieeeing!\n""
+     BEGIN not safe after errors--compilation aborted at (eval 129) line 5.
+
+     $_ use Carp
+
+     $_ carp "I'm dieeeing!\n"
+     I'm dieeeing!
+      at /usr/share/perl5/Lexical/Persistence.pm line 327
+     1
+     $_
 
     To quit from the shell, hit "Ctrl+D" or "Ctrl+C".
 
-    MSWin32 NOTE: control keys won't work if TERM=dumb
-                  because readline functionality will be
-		  disabled.
+      MSWin32 NOTE: control keys won't work if TERM=dumb
+      because readline functionality will be disabled.
 
   Run Control Files
     For particular projects you might well end up running the same commands
@@ -89,12 +88,12 @@ USAGE
     To set a new run control file that's also in that directory, pass it as
     a filename like so:
 
-      system$ re.pl --rcfile myproject.pc
+     system$ re.pl --rcfile myproject.pc
 
     If the filename happens to contain a forwardslash, then it's used
-    absolutely, or relative to the current working directory:
+    absolutely, or realive to the current working directory:
 
-      system$ re.pl --rcfile /path/to/my/project/repl.rc
+     system$ re.pl --rcfile /path/to/my/project/repl.rc
 
     Within the run control file you might want to load plugins. This is
     covered in "The REPL shell object" section, below.
@@ -131,9 +130,9 @@ USAGE
     the CPAN. Some of the shipped plugins are loaded in the default profile,
     mentioned above.
 
-    Writing your own plugins is not difficult once you understand all about
-    Moose and Moose Roles.  A Devel::REPL::Plugin manual page is planned but
-    not yet written.
+    Writing your own plugins is not difficult, and is discussed in the
+    Devel::REPL::Plugin manual page, along with links to the manual pages of
+    all the plugins shipped with "Devel::REPL".
 
   The REPL shell object
     From time to time you'll want to interact with or manipulate the
@@ -156,19 +155,25 @@ REQUIREMENTS
     In addition to the contents of the standard Perl distribution, you will
     need the following:
 
-    *   Moose >= 0.64
+    *   Moose >= 0.74
 
     *   MooseX::Object::Pluggable >= 0.0009
 
-    *   MooseX::Getopt >= 0.15
+    *   MooseX::Getopt >= 0.18
 
-    *   MooseX::AttributeHelpers >= 0.14
+    *   MooseX::AttributeHelpers >= 0.16
 
     *   namespace::clean
 
     *   File::HomeDir
 
     *   Task::Weaken
+
+    *   B::Concise
+
+    *   Term::ANSIColor
+
+    *   Devel::Peek
 
     Optionally, some plugins if installed will require the following
     modules:
@@ -177,7 +182,11 @@ REQUIREMENTS
 
     *   Data::Dump::Streamer
 
+    *   Data::Dumper::Concise
+
     *   File::Next
+
+    *   Sys::SigAction
 
     *   B::Keywords
 
@@ -192,12 +201,15 @@ AUTHOR
     (<http://www.shadowcatsystems.co.uk/>)
 
 CONTRIBUTORS
-    Stevan Little  - stevan (at) iinteractive.com
+    Stevan Little - stevan (at) iinteractive.com
     Alexis Sukrieh - sukria+perl (at) sukria.net
     epitaph
-    mgrimes        - mgrimes (at) cpan (dot) org
-    Shawn M Moore  - sartak (at) gmail.com
+    mgrimes - mgrimes (at) cpan dot org
+    Shawn M Moore - sartak (at) gmail.com
     Oliver Gorwits - oliver on irc.perl.org
+    Andrew Moore - "<amoore@cpan.org>"
+    Norbert Buchmuller "<norbi@nix.hu>"
+    Dave Houston "<dhouston@cpan.org>"
     Chris Marshall
 
 LICENSE

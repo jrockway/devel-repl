@@ -223,7 +223,11 @@ exported functions from that module are available for immediate use:
  1
  $_
 
-To quit from the shell, hit C<control+d> or C<control+c>.
+To quit from the shell, hit C<Ctrl+D> or C<Ctrl+C>.
+
+  MSWin32 NOTE: control keys won't work if TERM=dumb
+  because readline functionality will be disabled.
+
 
 =head2 Run Control Files
 
@@ -328,7 +332,7 @@ the following:
 
 =item *
 
-L<Moose> >= 0.64
+L<Moose> >= 0.74
 
 =item *
 
@@ -336,11 +340,11 @@ L<MooseX::Object::Pluggable> >= 0.0009
 
 =item *
 
-L<MooseX::Getopt> >= 0.15
+L<MooseX::Getopt> >= 0.18
 
 =item *
 
-L<MooseX::AttributeHelpers> >= 0.14
+L<MooseX::AttributeHelpers> >= 0.16
 
 =item *
 
@@ -353,6 +357,18 @@ L<File::HomeDir>
 =item *
 
 L<Task::Weaken>
+
+=item *
+
+L<B::Concise>
+
+=item *
+
+L<Term::ANSIColor>
+
+=item *
+
+L<Devel::Peek>
 
 =back
 
@@ -370,7 +386,15 @@ L<Data::Dump::Streamer>
 
 =item *
 
+L<Data::Dumper::Concise>
+
+=item *
+
 L<File::Next>
+
+=item *
+
+L<Sys::SigAction>
 
 =item *
 
@@ -415,6 +439,8 @@ Matt S Trout - mst (at) shadowcatsystems.co.uk (L<http://www.shadowcatsystems.co
 =item Norbert Buchmuller C<< <norbi@nix.hu> >>
 
 =item Dave Houston C<< <dhouston@cpan.org> >>
+
+=item Chris Marshall
 
 =back
 

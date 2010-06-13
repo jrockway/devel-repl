@@ -1,5 +1,11 @@
+1.003010_01
+  - Add ReadLine file completion if no other matches, fixes rt.cpan#58351
+  - Add a bit more description of Turtle plugin to its POD
+  - Fix rt.cpan#43151 where _-> completion had error
+  - Add some missing functionality to t/load_core.t test coverage
+  - Added docs on quoting and history expansion addressing rt.cpan#48459
 1.3.10
-- Add exit_repl attribute as a non-signal related way to indicate the REPL should stop running.
+  - Add exit_repl attribute as a non-signal related way to indicate the REPL should stop running.
 1.3.9_02
   - resolve rt.cpan#45879 by implementing Term::ReadLine::Perl support for ReadLineHistory
   - resolve rt.cpan#55491 by skipping Interrupt test for win32
