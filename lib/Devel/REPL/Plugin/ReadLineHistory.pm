@@ -39,8 +39,16 @@ around 'run' => sub {
          close HIST;
       }
    }
-   $self->term->Attribs->{do_expand}=1;
+
+   $self->term->Attribs->{do_expand}=1;  # for Term::ReadLine::Gnu
+   $self->term->MinLine(2);              # don't save one letter commands
+
+   # let History plugin know we have Term::ReadLine support
+   $self->have_readline_history(1) if $self->can('have_readline_history');
+
+
    $self->$orig(@args);
+
    if ($self->term->ReadLine eq 'Term::ReadLine::Gnu') {
       $self->term->WriteHistory($hist_file) ||
       $self->print("warning: failed to write history file $hist_file");
