@@ -126,6 +126,13 @@ __END__
 
 Devel::REPL::Plugin::Completion - Extensible tab completion
 
+=head1 NOTE
+
+By default, the Completion plugin explicitly does I<not> use the Gnu readline
+or Term::ReadLine::Perl fallback filename completion.
+
+Set the attribute C<do_readline_filename_completion> to 1 to enable this feature.
+
 =head1 AUTHOR
 
 Shawn M Moore, C<< <sartak at gmail dot com> >>
