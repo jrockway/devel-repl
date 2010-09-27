@@ -7,8 +7,7 @@ use Moose::Role ();
 
 sub import {
   my $target = caller;
-  my $meta = Devel::REPL::Meta::Plugin->initialize($target);
-  $meta->add_method('meta' => sub { $meta });
+  Devel::REPL::Meta::Plugin->initialize($target);
   goto &Moose::Role::import;
 }
 
