@@ -1,7 +1,7 @@
+1.003012
   - Remove some old code to avoid a future Moose warning
-1.003010_02
+1.003011
   - History plugin now works for Term::ReadLine::Perl
-1.003010_01
   - Add ReadLine file completion if no other matches, fixes rt.cpan#58351
   - Add a bit more description of Turtle plugin to its POD
   - Fix rt.cpan#43151 where _-> completion had error
