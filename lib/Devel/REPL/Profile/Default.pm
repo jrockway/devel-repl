@@ -6,7 +6,7 @@ use namespace::clean -except => [ 'meta' ];
 with 'Devel::REPL::Profile';
 
 sub plugins {
-  qw(History LexEnv DDS Packages Commands MultiLine::PPI);
+  qw(History LexEnv DDS Packages Commands MultiLine::PPI ResultNames InstallResult);
 }
 
 sub apply_profile {
