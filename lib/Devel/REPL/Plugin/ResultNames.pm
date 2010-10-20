@@ -41,9 +41,9 @@ sub name_for {
         for my $var (keys %varhash) {
             my $val = $varhash{$var};
             $self->seen_vars->{$var} = 1;
-            $self->seen_vals->{$val} = $var; # remember this, so we
-                                             # don't have to iterate
-                                             # again
+            $self->seen_vals->{$val} = $var if ref $val; # remember this, so we
+                                                         # don't have to iterate
+                                                         # again
             no warnings 'uninitialized';
             $name = $var if refaddr($val) == refaddr($thing);
         }
