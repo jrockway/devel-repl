@@ -48,6 +48,11 @@ around 'run' => sub {
 
 
    $self->$orig(@args);
+};
+
+around 'eval' => sub{
+    my $orig=shift;
+    my ($self, @args)=@_;
 
    if ($self->term->ReadLine eq 'Term::ReadLine::Gnu') {
       $self->term->WriteHistory($hist_file) ||
@@ -62,6 +67,7 @@ around 'run' => sub {
          $self->print("warning: unable to WriteHistory to $hist_file");
       }
    }
+   $self->$orig(@args);
 };
 
 1;
